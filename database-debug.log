@@ -1,0 +1,6 @@
+14:24:32.740 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+14:24:32.830 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
+14:24:40.541 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO com.firebase.core.namespace.NamespaceActor - easytutor-prototype-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 65ms, init: 0ms
+14:24:40.566 [NamespaceSystem-blocking-namespace-operation-dispatcher-7:easytutor-prototype-default-rtdb$-621663384:] INFO com.firebase.core.namespace.StateManager - Namespace easytutor-prototype-default-rtdb status Active to Active
+14:25:43.663 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO com.firebase.core.namespace.NamespaceActor - fake-server successfully activated FBKV (SurveyIdle(0)) wait: 1ms, init: 0ms
+14:26:38.189 [NamespaceSystem-akka.actor.default-dispatcher-14] INFO com.firebase.core.namespace.NamespaceActor - easytutor-prototype successfully activated FBKV (SurveyIdle(0)) wait: 2ms, init: 0ms

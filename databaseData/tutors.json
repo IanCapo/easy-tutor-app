@@ -1,0 +1,28 @@
+{"tutors": [
+    {
+        "firstname": "Peter",
+        "lastname": "Smith",
+        "description": "djfnvlkdnfg",
+        "languagesSpoken": ["English", "Spanish", "German"],
+        "subjects": [
+            {
+                "name": "Math",
+                "level": "University",
+                "types": ["Exam Preparation"],
+                "lessonPrice": "17.5"
+        }
+        ],
+        "paymentInfo": "Paypal",
+        "email": "peter.smith@petersmith.com",
+        "profilePicture": "/...",
+        "phoneNumber": "+441234567890"
+    }
+],
+"calendarEntry": [
+        {
+            "date": "",
+            "startTime": "",
+            "available": true 
+    }
+]
+}
