@@ -1,0 +1,64 @@
+.booking-view__tutor-list-container {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    .card {
+        max-width: 240px;
+        width: 100%;
+        border: 1px solid grey;
+        border-radius: 3px;
+        padding: 24px 32px;
+        display: flex;
+        flex-direction: column;
+
+        .image {
+            max-width: 240px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0px 0 12px 0;
+            
+
+            img {
+                width: 180px;
+                height: 180px;
+                border-radius: 50%;
+                background-position: center;
+                object-fit: cover;
+            }
+        }
+
+        .tags__container {
+            height: 40px;
+
+            .tag {
+                font-size: 12px;
+                border: 1px solid darkblue;
+                color: #fff;
+                background-color: darkblue;
+                padding: 2px 4px;
+                margin-right: 4px;
+                border-radius: 3px;
+            }
+        }
+
+        button {
+            margin-right: 16px;
+            background-color: #fff;
+            color: darkblue;
+            padding: 6px 16px;
+            border: 1px solid lightgray;
+            border-radius: 3px;
+
+            &:hover {
+                color: #fff;
+                background-color: darkblue;
+            }
+        }
+      }
+
+}
+
+  

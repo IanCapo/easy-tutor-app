@@ -1,6 +1,21 @@
 <div class="main-bookingview__container">
     <h3>Find you tutor</h3>
-    <div class="questionaire__container">
-        <app-inputgroup></app-inputgroup>
+    <div 
+        *ngIf="currStep <= questions.length" 
+        class="questionaire__container">
+            <app-inputgroup 
+                *ngFor="let question of questions" 
+                title="{{question.text}}" 
+                [hidden]="currStep != question.index"
+                (newBlurEvent)="setStep()"
+                >
+            </app-inputgroup>
+    </div>
+    <div
+        *ngIf="isTutorList"
+        class="tutorList__container">
+        <app-tutor-list [tutors]="tutors">
+
+        </app-tutor-list>
     </div>
 </div>

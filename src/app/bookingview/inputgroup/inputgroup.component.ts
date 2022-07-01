@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, Input, OnInit, Output, EventEmitter } from '@angular/core';
+
+
 
 @Component({
   selector: 'app-inputgroup',
   templateUrl: './inputgroup.component.html',
   styleUrls: ['./inputgroup.component.scss']
 })
-export class InputgroupComponent implements OnInit {
+export class InputgroupComponent {
+  @Input('title') title = '';
+  @Output() newBlurEvent = new EventEmitter();
+  
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  onBlur() {
+    this.newBlurEvent.emit();
+  }  
 }
+

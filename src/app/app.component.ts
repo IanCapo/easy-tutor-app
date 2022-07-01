@@ -1,30 +1,27 @@
-
+import { map, Observable } from 'rxjs';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Component } from '@angular/core';
-// import { Observable } from 'rxjs';
-// import { AngularFireDatabase } from '@angular/fire/compat/database';
-// import { environment } from 'src/environments/environment';
-// import { provideFirebaseApp, getApp } from '@angular/fire/app';
-// import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-// import { initializeApp } from 'firebase/app';
 
+export interface Tutor {
+  firstName: string;
+  lastName: string;
+  email: string
+}
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent {
   title = 'easy-tutor-app';
-  // items: Observable<any[]>;
-  // constructor(db: AngularFireDatabase ) {
-  //   provideFirebaseApp(() => initializeApp(environment.firebase, 'easytutor-app')),
-  //   provideFirestore(() => getFirestore())
-  //   this.items = db.list('tutors').valueChanges();
-  //   this.logChanges();
-    
-  // }
+  tutors: any[];
+  
+  constructor(db: AngularFireDatabase) {  
+    const t = db.list('/subjects').snapshotChanges() as Observable<any>
 
-  // public logChanges() {
-  //   console.log(this.items);
-  // }
-}
+    t.pipe(map(subjects => console.log(subjects))).subscribe()
+    
+    }
+ }
