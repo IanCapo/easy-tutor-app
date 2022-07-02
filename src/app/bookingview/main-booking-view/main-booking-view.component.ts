@@ -18,7 +18,7 @@ export class MainBookingViewComponent implements OnInit {
   public tutors: string[] = [];
   public currStep = 0;
   public isTutorList = false;
-  public queryData: string[] = [];
+  public queryData: object[] = [];
   public filteredTutors: any[] = [];
   private _dbService;
 
@@ -36,7 +36,9 @@ export class MainBookingViewComponent implements OnInit {
   }
 
   public setStep($value: any, $key: string) {
-    this.queryData.push($value)
+    const queryObj = { key: $key, value: $value }
+    
+    this.queryData.push(queryObj)
     this.currStep += 1;
     
     if(this.currStep >= this.questions.length) {

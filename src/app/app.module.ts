@@ -18,6 +18,7 @@ import {MatInputModule} from '@angular/material/input';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { TutorListComponent } from './bookingview/tutor-list/tutor-list.component';
 import { TutorProfileCardComponent } from './bookingview/tutor-profile-card/tutor-profile-card.component';
+import { HttpClientModule } from '@angular/common/http';
 const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
 
 
@@ -40,7 +41,8 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     SocketIoModule.forRoot(config),
-    MatInputModule
+    MatInputModule,
+    HttpClientModule
   ],
   exports: [
   ],

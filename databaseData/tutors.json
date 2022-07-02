@@ -7,22 +7,51 @@
         "subjects": [
             {
                 "name": "Math",
-                "level": "University",
+                "levels": ["University", "Primary School", "Highschool"],
                 "types": ["Exam Preparation"],
                 "lessonPrice": "17.5"
-        }
-        ],
+            },
+            {
+                "name": "English",
+                "levels": ["University", "Primary School", "Highschool"],
+                "types": ["Exam Preparation", "Conversation"],
+                "lessonPrice": "17.5"
+            }, 
+            {
+                "name": "German",
+                "levels": ["University", "Primary School", "Highschool"],
+                "types": ["Exam Preparation", "Conversation"],
+                "lessonPrice": "17.5"
+            }
+     ],
         "paymentInfo": "Paypal",
         "email": "peter.smith@petersmith.com",
         "profilePicture": "/...",
         "phoneNumber": "+441234567890"
-    }
-],
-"calendarEntry": [
-        {
-            "date": "",
-            "startTime": "",
-            "available": true 
+    },
+    {
+        "firstname": "Jane",
+        "lastname": "Doe",
+        "description": "djfnvlkdnfg",
+        "languagesSpoken": ["English"],
+        "subjects": [
+            {
+                "name": "Math",
+                "levels": ["University", "Primary School", "Highschool"],
+                "types": ["Exam Preparation"],
+                "lessonPrice": "17.5"
+            },
+            {
+                "name": "Physics",
+                "levels": ["University", "Primary School", "Highschool"],
+                "types": ["Exam Preparation"],
+                "lessonPrice": "17.5"
+             }
+        ],
+        "paymentInfo": "Paypal",
+        "email": "jane.doe@gmail.com",
+        "profilePicture": "/...",
+        "phoneNumber": "+44987654321"
     }
 ]
 }

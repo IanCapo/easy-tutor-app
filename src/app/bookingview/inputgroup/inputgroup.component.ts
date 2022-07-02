@@ -13,8 +13,8 @@ export class InputgroupComponent {
   
   constructor() {}
 
-  onBlur() {
-    this.newBlurEvent.emit();
+  onBlur($event: any) {
+    this.newBlurEvent.emit($event.target.value);
   }  
 }
 

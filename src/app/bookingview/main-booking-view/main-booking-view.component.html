@@ -4,17 +4,17 @@
         *ngIf="currStep <= questions.length" 
         class="questionaire__container">
             <app-inputgroup 
-                *ngFor="let question of questions" 
+                *ngFor="let question of questions, let i = index" 
                 title="{{question.text}}" 
-                [hidden]="currStep != question.index"
-                (newBlurEvent)="setStep()"
+                [hidden]="currStep != i"
+                (newBlurEvent)="setStep($event, question.key)"
                 >
             </app-inputgroup>
     </div>
     <div
         *ngIf="isTutorList"
         class="tutorList__container">
-        <app-tutor-list [tutors]="tutors">
+        <app-tutor-list [tutors]="filteredTutors">
 
         </app-tutor-list>
     </div>
