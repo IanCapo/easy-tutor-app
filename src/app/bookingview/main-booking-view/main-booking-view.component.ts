@@ -2,6 +2,11 @@ import { DatabaseService } from './../../../services/database.service';
 import { Component, OnInit} from '@angular/core';
 import { BehaviorSubject, switchMap, filter, Observable, map, tap } from 'rxjs';
 
+
+interface QueryObject {
+  key: string,
+  value: string
+}
 @Component({
   selector: 'app-main-booking-view',
   templateUrl: './main-booking-view.component.html',
@@ -18,7 +23,7 @@ export class MainBookingViewComponent implements OnInit {
   public tutors: string[] = [];
   public currStep = 0;
   public isTutorList = false;
-  public queryData: object[] = [];
+  public queryData: Array<QueryObject> = [];
   public filteredTutors: any[] = [];
   private _dbService;
 
@@ -36,7 +41,7 @@ export class MainBookingViewComponent implements OnInit {
   }
 
   public setStep($value: any, $key: string) {
-    const queryObj = { key: $key, value: $value }
+    const queryObj: QueryObject = { key: $key, value: $value }
     
     this.queryData.push(queryObj)
     this.currStep += 1;
@@ -47,23 +52,27 @@ export class MainBookingViewComponent implements OnInit {
     }   
   }
 
-  public filterTutors(tutors: any) {
+  public filterTutors(tutors: any) {    
     this.filteredTutors = tutors.filter((tutor: any) => {
-      return tutor.languagesSpoken.includes(this.queryData[0]);
+      return this.queryData[0].value ? tutor.languagesSpoken.includes(this.queryData[0].value) : true;
     }   
     )
     .filter((tutor: any) => {
-      const subject = this.queryData[1];
-      return tutor.subjects.some((subj: any) => subj.name === subject);
+      const subject = this.queryData[1].value;
+      return subject ? tutor.subjects.some((subj: any) => subj.name === subject) : true;
      })
     .filter((tutor: any) => {
-      const subject = this.queryData[1];
-      const subjTypes = tutor.subjects.find((subj: any) => subj.name === subject).types;
-      return (
-        subjTypes
-          .map((type: string) => type.toLowerCase())
-          .includes(this.queryData[2].toLowerCase())
-        )
+      const subject = this.queryData[1].value;
+      if(subject) {
+        const subjTypes = tutor.subjects.find((subj: any) => subj.name === subject).types;
+        return (
+          subjTypes
+            .map((type: string) => type.toLowerCase())
+            .includes(this.queryData[2].value.toLowerCase())
+          )
+      } else {
+        return true;
+      }
     })
-  }
+   }
 }
