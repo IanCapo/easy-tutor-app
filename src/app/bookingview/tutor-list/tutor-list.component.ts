@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatCardModule } from '@angular/material/card'; 
 
 @Component({
   selector: 'app-tutor-list',
@@ -7,7 +6,8 @@ import { MatCardModule } from '@angular/material/card';
   styleUrls: ['./tutor-list.component.scss']
 })
 export class TutorListComponent implements OnInit {
-  
+  public selectedTutorId = '';
+
   @Input('tutors') tutors = [];
 
   constructor() { }
@@ -15,4 +15,7 @@ export class TutorListComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  public toggleTutorDetails(id: string) {
+    this.selectedTutorId = this.selectedTutorId !== id ? id : '';
+  }
 }

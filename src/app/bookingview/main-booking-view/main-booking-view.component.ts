@@ -1,6 +1,6 @@
 import { DatabaseService } from './../../../services/database.service';
 import { Component, OnInit} from '@angular/core';
-import { BehaviorSubject, switchMap, filter, Observable, map, tap } from 'rxjs';
+import { map } from 'rxjs';
 
 
 interface QueryObject {

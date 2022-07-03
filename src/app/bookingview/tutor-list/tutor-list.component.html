@@ -12,15 +12,16 @@
             <div class="image">
                 <img 
                 src="https://media.istockphoto.com/photos/smiling-indian-man-looking-at-camera-picture-id1270067126?k=20&m=1270067126&s=612x612&w=0&h=ZMo10u07vCX6EWJbVp27c7jnnXM2z-VXLd-4maGePqc="
-                 alt="josh">
+                 alt="{{ tutor.firstname }}">
             </div>
-            <h3>{{ tutor.name }} {{ tutor.lastname}}</h3>
+            <h3>{{ tutor.firstname }} {{ tutor.lastname}}</h3>
             <p>{{ tutor.description }}</p> 
             <div class="buttons">
-            <button>View details</button>
+            <button (click)="toggleTutorDetails(tutor.id)">View details</button>
             <button>Book</button>
             </div>
-        </div>
+            <app-tutor-detail [selectedTutor]="tutor" *ngIf="selectedTutorId === tutor.id"></app-tutor-detail>
+        </div> 
       </div>
 </div>
 

@@ -17,8 +17,8 @@ import {MatInputModule} from '@angular/material/input';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { TutorListComponent } from './bookingview/tutor-list/tutor-list.component';
-import { TutorProfileCardComponent } from './bookingview/tutor-profile-card/tutor-profile-card.component';
 import { HttpClientModule } from '@angular/common/http';
+import { TutorDetailComponent } from './bookingview/tutor-detail/tutor-detail.component';
 const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
 
 
@@ -30,7 +30,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8988', options: {} };
     MainBookingViewComponent,
     InputgroupComponent,
     TutorListComponent,
-    TutorProfileCardComponent
+    TutorDetailComponent
   ],
   imports: [
     BrowserModule,
