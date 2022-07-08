@@ -13,7 +13,8 @@ export const environment = {
     appId: "1:1094650223829:web:8f17f915d7058127a9965c",
     measurementId: "G-01B4ZKM3J0"  
   },
-  socketUrl: 'http://localhost:3000'
+  
+  socketUrl: 'https://whispering-dawn-41593.herokuapp.com/'
 };
 
 
@@ -25,3 +26,4 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
+// socketUrl: 'http://localhost:5000'

@@ -1,0 +1,12 @@
+<div class="video-chat-body">
+  <div id="session_container" class="centered">
+    <h1>Join Session</h1>
+    <button id="connect-btn" (click)="connect()">CONNECT</button>
+  </div>
+
+  <div id="video-chat-container" class="video-position" *ngIf="localStream">
+    <video id="local-video" autoplay="autoplay" [srcObject]="localStream" ></video>
+    <video id="remote-video" autoplay="autoplay" [srcObject]="remoteStream"></video>
+    <button id="disconnect-btn">End call</button>
+  </div>
+</div>

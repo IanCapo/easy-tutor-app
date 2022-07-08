@@ -1,6 +1,5 @@
-import { webSocket } from 'rxjs/webSocket';
 import { environment } from './../environments/environment';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
 
@@ -25,14 +24,6 @@ export class WebsocketService {
         })
       })
     }
-
-    // asyncListen(eventName: string) {
-    //   return new Observable((subscriber) => {
-    //     this.socket.on(eventName, async (data: any) => {
-    //       subscriber.next(data)
-    //     })
-    //   })
-    // }
 
     emit(eventName: string, data: any) {
       this.socket.emit(eventName, data)
