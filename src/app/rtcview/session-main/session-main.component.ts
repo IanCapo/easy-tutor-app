@@ -118,7 +118,7 @@ export class SessionMainComponent implements OnInit {
 
   connect() {
     console.log('connect');
-    this.websocket.emit('join', {roomId: 1})
+    this.websocket.emit('join', {roomId: 'a_1234'})
     this.startedConnection = true;
   }
 
