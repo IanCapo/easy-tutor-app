@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WebsocketService } from 'src/services/websocket.service';
+import { ActivatedRoute, ParamMap } from '@angular/router'
 
 @Component({
   selector: 'app-session-main',
@@ -30,12 +31,17 @@ export class SessionMainComponent implements OnInit {
 
   public rtcPeerConnection: RTCPeerConnection
 
-  constructor(private websocket: WebsocketService) {
+  constructor(private websocket: WebsocketService, private route: ActivatedRoute) {
     this.socketID = websocket.socket.id
   }
 
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.roomId = params.get('room');
+    })
+    console.log('this.roomId from route', this.roomId);
+    
     this.websocket.listen('join').subscribe((data) => {
       console.log(data);
     })
@@ -118,13 +124,16 @@ export class SessionMainComponent implements OnInit {
 
   connect() {
     console.log('connect');
-    this.websocket.emit('join', {roomId: 'a_1234'})
+    console.log('connect', this.roomId);
+    this.websocket.emit('join', { roomId: this.roomId })
     this.startedConnection = true;
   }
 
   startCall() {
+    console.log(this.roomId);
+    
     this.websocket.emit('starting_call', 
-      {roomId: this.roomId}
+      { roomId: this.roomId }
     );
   }
 
