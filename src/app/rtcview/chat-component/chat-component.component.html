@@ -1,0 +1,11 @@
+
+<div class="chat-view">
+    <div class="message_container">
+        <p class="message" [class]="message.sender" *ngFor="let message of messages" [ngClass]="message.sender">{{ message.message }}</p>
+    </div>
+
+    <div class="message-input-container" *ngIf="isConnected && !isDisableChat">
+        <textarea type="textarea" class="message-input" rows="14" cols="10" wrap="soft" [(ngModel)]="messageInput" (keyup.enter)="sendMessage()"></textarea>
+        <button class="send-btn" (click)="sendMessage()">Send message</button>
+    </div>
+</div>

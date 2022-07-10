@@ -12,12 +12,14 @@ import { MainBookingViewComponent } from './bookingview/main-booking-view/main-b
 import { InputgroupComponent } from './bookingview/inputgroup/inputgroup.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { FormsModule } from '@angular/forms';
 
 import {MatInputModule} from '@angular/material/input'; 
 import { TutorListComponent } from './bookingview/tutor-list/tutor-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TutorDetailComponent } from './bookingview/tutor-detail/tutor-detail.component';
 import { SessionMainComponent } from './rtcview/session-main/session-main.component';
+import { ChatComponentComponent } from './rtcview/chat-component/chat-component.component';
 
 
 
@@ -29,7 +31,8 @@ import { SessionMainComponent } from './rtcview/session-main/session-main.compon
     InputgroupComponent,
     TutorListComponent,
     TutorDetailComponent,
-    SessionMainComponent
+    SessionMainComponent,
+    ChatComponentComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,8 @@ import { SessionMainComponent } from './rtcview/session-main/session-main.compon
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     MatInputModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   exports: [
   ],

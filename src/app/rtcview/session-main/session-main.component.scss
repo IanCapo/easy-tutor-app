@@ -1,20 +1,26 @@
-.video-chat-body {
-    margin: 0;
-    font-size: 20px;
+.session-main {
+  width: 100%;
+  height: 90%;
+  display: flex;
+
+  .video-chat-body {
+    width: 80%;
+    height: 100%;
   }
 
-  .centered {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  .session_controls {
+    border-bottom: 1px solid black;
+    height: 40px;
+    padding: 12px 24px;
+    
+    h1 {
+      cursor: pointer;
+    }
   }
 
-  .video-position {
-    position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  .chat-container {
+    width: 20%;
+    height: 100%;
   }
 
   #video-chat-container {
@@ -22,20 +28,32 @@
     background-color: black;
   }
 
-  #local-video {
+  .local-video {
     position: absolute;
-    height: 30%;
-    width: 30%;
+    height: 15%;
+    width: 15%;
     bottom: 0px;
-    left: 0px;
+    object-fit: cover;
   }
 
-  #remote-video {
-    height: 100%;
-    width: 100%;
-  }
+  .remote-video-container{
+    position: absolute;
+    width: 80%;
+    height: 90%;
+    z-index: -1;
 
+    .remote-video {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      bottom: 0px;
+      object-fit: cover;
+    }
+  }
   #disconnect-btn {
       position: absolute;
       top: 100px;
   }
+}
+

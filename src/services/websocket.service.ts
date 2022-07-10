@@ -15,17 +15,26 @@ export class WebsocketService {
       this.socket = io(environment.socketUrl);
     }
 
-    private socket: any; 
+    public socket: any; 
 
-    listen(eventName: string) {
+    listen(eventName: string) {  
       return new Observable((subscriber) => {
-        this.socket.on(eventName, (data: any) => {
-          subscriber.next(data)
+        this.socket.on(eventName, (data: any) => {          
+          const eventData = {...data, socketId: this.socket.id}
+          subscriber.next(eventData)
         })
       })
     }
 
     emit(eventName: string, data: any) {
-      this.socket.emit(eventName, data)
+      let eventData: any;
+      if(eventName === 'message') {
+        let message = data;
+        eventData = {msg: message, socketId: this.socket.id}
+      } else {
+        eventData = {...data, socketId: this.socket.id}
+      }
+
+      this.socket.emit(eventName, eventData)
     }
 }

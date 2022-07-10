@@ -1,12 +1,20 @@
-<div class="video-chat-body">
-  <div id="session_container" class="centered">
-    <h1>Join Session</h1>
-    <button id="connect-btn" (click)="connect()">CONNECT</button>
-  </div>
+<div class="session-main">
+  <div class="video-chat-body">
 
-  <div id="video-chat-container" class="video-position" *ngIf="localStream">
-    <video id="local-video" autoplay="autoplay" [srcObject]="localStream" ></video>
-    <video id="remote-video" autoplay="autoplay" [srcObject]="remoteStream"></video>
-    <button id="disconnect-btn">End call</button>
+    <div class="session_controls" *ngIf="!startedConnection">
+      <h1 (click)="connect()">Join Session</h1>
+    </div>
+
+    <div class="session_controls" *ngIf="startedConnection">
+      <h1 (click)="disconnectFromSession()">Leave Session</h1>
+    </div>
+
+    <div id="video-chat-container" *ngIf="localStream">
+      <video class="local-video" autoplay="autoplay" [srcObject]="localStream" ></video>
+      <div class="remote-video-container">
+        <video class="remote-video" autoplay="autoplay" [srcObject]="remoteStream"></video>
+      </div> 
+    </div>
   </div>
+  <app-chat-component class="chat-container" (isConnectionClosed)="disconnectFromSession()" [isDisableChat]="disableChat"></app-chat-component>
 </div>

@@ -16,7 +16,11 @@ export class SessionMainComponent implements OnInit {
   
   localStream: any;
   remoteStream: any;
+  socketID : string;
+  startedConnection = false;
+  disableChat = false;
 
+  
   iceServers = {
     iceServers: [
       { urls: 'stun:stun.l.google.com:19302' },
@@ -27,7 +31,7 @@ export class SessionMainComponent implements OnInit {
   public rtcPeerConnection: RTCPeerConnection
 
   constructor(private websocket: WebsocketService) {
-
+    this.socketID = websocket.socket.id
   }
 
 
@@ -37,28 +41,28 @@ export class SessionMainComponent implements OnInit {
     })
 
     this.websocket.listen('room_created').subscribe((data: any) => {
-      console.log('data create room', data);
+      console.log('data create room', data.roomId);
       
       this.isRoomCreator = true;
-      this.roomId = data;
+      this.roomId = data.roomId;
       console.log('roomId', this.roomId);
       
       this.setLocalStream();
-      console.log('room created', data);
     })
 
-    this.websocket.listen('room_joined').subscribe((data) => {
-      console.log('joined room', data);
-      this.roomId = data;
+    this.websocket.listen('room_joined').subscribe((data: any) => {
+      console.log('joined room', data.roomId);
+      this.roomId = data.roomId;
       this.setLocalStream();
       this.startCall();
+      
     })
 
-    this.websocket.listen('room_full').subscribe((data) => {
-      console.log('room full', data);
+    this.websocket.listen('room_inaccesabible').subscribe((data: any) => {
+      console.log('room full', data.roomId);
     })
 
-    this.websocket.listen('start_call').subscribe(async() => {
+    this.websocket.listen('starting_call').subscribe(async() => {
       console.log('started call');
       if(this.isRoomCreator) {
         this.rtcPeerConnection = new RTCPeerConnection(this.iceServers);
@@ -93,6 +97,8 @@ export class SessionMainComponent implements OnInit {
       this.rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(data));
     })
 
+ 
+
     this.websocket.listen('webrtc_ice_candidate').subscribe((data: any) => {
   
       let candidate = new RTCIceCandidate({
@@ -102,18 +108,24 @@ export class SessionMainComponent implements OnInit {
     
       this.rtcPeerConnection.addIceCandidate(candidate);
       })
+
+      this.websocket.listen('disconnect_socket').subscribe(() => {
+        console.log('disconnet');
+        
+        this.remoteStream = null;
+      })
   }
 
   connect() {
     console.log('connect');
-    
-    this.websocket.emit('join', 1)
+    this.websocket.emit('join', {roomId: 1})
+    this.startedConnection = true;
   }
 
   startCall() {
-    this.websocket.emit('start_call', 
-      this.roomId
-  );
+    this.websocket.emit('starting_call', 
+      {roomId: this.roomId}
+    );
   }
 
   setLocalStream() {
@@ -138,7 +150,6 @@ export class SessionMainComponent implements OnInit {
     } catch (e) {
         console.error(e)
     }
-    console.log('offer', sessionDescription);
     
     this.websocket.emit('webrtc_offer', {
         type: 'webrtc_offer',
@@ -179,8 +190,12 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
     }
   }
 
-  disconnect = () => {
-    this.websocket.emit('disconnect', this.roomId);
+  disconnectFromSession = () => {
+    this.websocket.emit('disconnect_socket', {roomId: this.roomId});
+    this.rtcPeerConnection.close();
+    this.localStream = null;
+    this.remoteStream = null;
+    this.disableChat = true;
   }
 }
 
