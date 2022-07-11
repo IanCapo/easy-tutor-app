@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TutorDetailComponent } from './bookingview/tutor-detail/tutor-detail.component';
 import { SessionMainComponent } from './rtcview/session-main/session-main.component';
 import { ChatComponentComponent } from './rtcview/chat-component/chat-component.component';
+import { BookalessonComponent } from './bookingview/bookalesson/bookalesson.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ChatComponentComponent } from './rtcview/chat-component/chat-component.
     TutorListComponent,
     TutorDetailComponent,
     SessionMainComponent,
-    ChatComponentComponent
+    ChatComponentComponent,
+    BookalessonComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,19 @@
+.book-a-lesson_container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+
+    .inputgroup {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+    }
+
+    button {
+        max-width: 50%;
+        align-self: flex-end;
+        border-radius: 3px;
+        border: 1px solid lightgray;
+        background-color: white;
+    }
+}
