@@ -1,9 +1,18 @@
 <div class="book-a-lesson_container">
-    <div class="inputgroup">
-        <label for="email">Email</label>
-        <input #email type="email">
+    <div >
+       <form 
+        [formGroup]="bookingForm"
+         (ngSubmit)="sendBookingRequest()"
+         class="inputgroup">
+            <label for="firstname">Firstname</label>
+            <input #firstname type="text" formControlName="firstname">
+            <label for="lastname">Lastname</label>
+            <input #lastname type="text" formControlName="lastname">
+            <label for="email">Email</label>
+            <input #email type="email" formControlName="email">
+    </form>
     </div>
 
 
-    <button (click)="sendBookingRequest()">Book now</button>
+    <button  [disabled]="!bookingForm.valid" (click)="sendBookingRequest()">Book now</button>
 </div>

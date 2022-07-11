@@ -14,7 +14,8 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { FormsModule } from '@angular/forms';
 
-import {MatInputModule} from '@angular/material/input'; 
+import { MatInputModule } from '@angular/material/input'; 
+import { ReactiveFormsModule } from '@angular/forms';
 import { TutorListComponent } from './bookingview/tutor-list/tutor-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TutorDetailComponent } from './bookingview/tutor-detail/tutor-detail.component';
@@ -44,7 +45,8 @@ import { BookalessonComponent } from './bookingview/bookalesson/bookalesson.comp
     AngularFireDatabaseModule,
     MatInputModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
   ],
