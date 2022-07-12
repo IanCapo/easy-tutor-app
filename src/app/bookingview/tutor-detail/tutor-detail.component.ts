@@ -7,11 +7,10 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class TutorDetailComponent implements OnInit {
 
-  @Input('selectedTutor') tutor: any;
+  @Input('selectedTutor') tutor: any = {};
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.tutor.subjects);
     
   }
 

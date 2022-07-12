@@ -4,13 +4,32 @@
         [formGroup]="bookingForm"
          (ngSubmit)="sendBookingRequest()"
          class="inputgroup">
+            <label for="subject">Subject</label>
+            <select #subject formControlName="subject">
+                <option *ngFor="let subject of tutor.subjects">{{subject.name}}</option>
+            </select>
             <label for="firstname">Firstname</label>
             <input #firstname type="text" formControlName="firstname">
             <label for="lastname">Lastname</label>
             <input #lastname type="text" formControlName="lastname">
             <label for="email">Email</label>
             <input #email type="email" formControlName="email">
+            <div>
+                <mat-form-field appearance="fill" class="datepicker">
+                    <mat-label>Choose a date</mat-label>
+                    <input #date matInput [matDatepicker]="picker" formControlName="date">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <label for="time">Time</label>
+            <input type="time" name="time" formControlName="time">
+
     </form>
+
+  
+      
     </div>
 
 

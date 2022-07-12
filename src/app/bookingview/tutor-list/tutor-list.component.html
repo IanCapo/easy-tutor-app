@@ -17,8 +17,8 @@
             <h3>{{ tutor.firstname }} {{ tutor.lastname}}</h3>
             <p>{{ tutor.description }}</p> 
             <div class="buttons">
-            <button (click)="toggleTutorDetails(tutor.id)">View details</button>
-            <button (click)="toggleBookLesson(tutor.id)">Book</button>
+            <button (click)="toggleTutorCard(tutor.id, 'details')">View details</button>
+            <button (click)="toggleTutorCard(tutor.id, 'book')">Book</button>
             </div>
             <app-bookalesson [selectedTutor]="tutor" *ngIf="selectedTutorId === tutor.id && isBookLesson"></app-bookalesson>
             <app-tutor-detail [selectedTutor]="tutor" *ngIf="selectedTutorId === tutor.id && isShowDetails"></app-tutor-detail>

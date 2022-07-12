@@ -17,29 +17,24 @@ export class TutorListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public toggleTutorDetails(id: string) {
-    //this.selectedTutorId = this.selectedTutorId !== id ? id : '';
-    if(this.selectedTutorId !== id) {
-      this.selectedTutorId = id;
-      this.isShowDetails = true;
-    } else if(this.selectedTutorId === id) {
-      this.selectedTutorId = '';
+  public toggleTutorCard(id: string, action: string) {
+    this.selectedTutorId = id;
+    if(action === 'book') {
       this.isShowDetails = false;
+      this.isBookLesson = !this.isBookLesson;
     }
-  }
-
-  public toggleBookLesson (id: string) {
-    
-    if(this.selectedTutorId !== id) {
-      this.selectedTutorId = id;
-      this.isBookLesson = true;
-    } else if(this.selectedTutorId === id) {
-      this.selectedTutorId = '';
+    if(action == 'details') {
       this.isBookLesson = false;
+      this.isShowDetails = !this.isShowDetails;
     }
   }
 
-  public toogleSelectedTeacher(id: string) {
-    this.selectedTutorId = this.selectedTutorId !== id ? id : '';
+  closeDetails() {
+    this.selectedTutorId = '';
+    this.isBookLesson = false;
+    this.isShowDetails = false;
   }
+
+
+
 }
