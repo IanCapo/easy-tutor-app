@@ -58,6 +58,16 @@
                 background-color: darkblue;
             }
         }
+
+        p.success {
+            padding: 20px 0;
+            color: #107510;
+        }
+
+        p.failed {
+            padding: 20px 0;
+            color: #d92828;
+        }
       }
 
 }

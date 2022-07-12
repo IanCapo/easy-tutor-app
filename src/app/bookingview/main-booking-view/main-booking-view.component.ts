@@ -20,12 +20,17 @@ export class MainBookingViewComponent implements OnInit {
     {key: 'type', text: "And what's the purpose of the lesson?"}
   ]
 
+  public numOfQuestions: number = this.questions.length;
   public tutors: string[] = [];
   public currStep = 0;
   public isTutorList = false;
   public queryData: Array<QueryObject> = [];
   public filteredTutors: any[] = [];
   private _dbService;
+  public noResults = false;
+
+  public subjectSearched: string = '';
+
 
   constructor(dbService: DatabaseService) { 
     this._dbService = dbService;
@@ -41,38 +46,84 @@ export class MainBookingViewComponent implements OnInit {
   }
 
   public setStep($value: any, $key: string) {
-    const queryObj: QueryObject = { key: $key, value: $value }
+    const obj = this.queryData.find(obj => obj.key === $key)
+    if(obj) {
+      obj.value = $value;
+    } else {
+      const queryObj: QueryObject = { key: $key, value: $value }
+      this.queryData.push(queryObj)
+    }
     
-    this.queryData.push(queryObj)
     this.currStep += 1;
     
-    if(this.currStep >= this.questions.length) {
+    if(this.currStep >= this.numOfQuestions) {
       this.filterTutors(this.tutors);
-     this.isTutorList = !this.isTutorList;
     }   
   }
 
-  public filterTutors(tutors: any) {    
-    this.filteredTutors = tutors.filter((tutor: any) => {
-      return this.queryData[0].value ? tutor.languagesSpoken.includes(this.queryData[0].value) : true;
+  public filterTutors(tutors: any) {   
+    let backToStep: number = this.questions.length; 
+
+    this.filteredTutors = [...tutors]
+    .filter((tutor: any) => {
+      const isLanguagesSpoken = this.queryData[0].value ? tutor.languagesSpoken.includes(this.queryData[0].value) : true;
+      console.log('isLanguagesSpoken', isLanguagesSpoken);
+      if(isLanguagesSpoken) {
+        return true
+      } else {
+        backToStep = 0;
+        return false;
+      }
     }   
     )
     .filter((tutor: any) => {
       const subject = this.queryData[1].value;
-      return subject ? tutor.subjects.some((subj: any) => subj.name === subject) : true;
+      let subjectExists = subject ? tutor.subjects.some((subj: any) => subj.name === subject) : true;
+      
+      if (subjectExists){
+        this.subjectSearched = subject;
+        return true;
+      } else {        
+        backToStep = backToStep < 1 ? backToStep : 1 ;
+        return false;
+      }
      })
     .filter((tutor: any) => {
       const subject = this.queryData[1].value;
-      if(subject) {
-        const subjTypes = tutor.subjects.find((subj: any) => subj.name === subject).types;
-        return (
-          subjTypes
-            .map((type: string) => type.toLowerCase())
-            .includes(this.queryData[2].value.toLowerCase())
-          )
+      const subjType = this.queryData[2].value;
+      if(subjType) {
+        if(subject) {
+          const subjTypes = tutor.subjects.find((subj: any) => subj.name === subject).types;
+          
+            let hasSubjectType = subjTypes
+              .map((type: string) => type.toLowerCase())
+              .includes(this.queryData[2].value.toLowerCase())
+            console.log('hasSubjectType', hasSubjectType);
+            if(hasSubjectType) {
+              return true;
+            } else {
+              backToStep = backToStep < 2 ? backToStep : 2;
+              return false;
+            }
+        } else {
+          return true;
+        }
       } else {
         return true;
       }
     })
+    
+    if(this.filteredTutors.length === 0) {
+      console.log('0 tutors found');
+      
+      this.isTutorList = false;
+      this.noResults = true;
+      console.log(backToStep);
+      
+      this.currStep = backToStep;
+    } else {
+      this.isTutorList = true;
+      this.noResults = false;
+    }
    }
 }

@@ -1,12 +1,13 @@
-<div class="book-a-lesson_container">
-    <div >
+<div class="book-a-lesson_container" *ngIf="!isLoading">
+    <div>
        <form 
         [formGroup]="bookingForm"
          (ngSubmit)="sendBookingRequest()"
          class="inputgroup">
             <label for="subject">Subject</label>
             <select #subject formControlName="subject">
-                <option *ngFor="let subject of tutor.subjects">{{subject.name}}</option>
+                <option>Select</option>
+                <option *ngFor="let subject of tutor.subjects">{{subject.name}}; ${{subject.lessonPrice}}</option>
             </select>
             <label for="firstname">Firstname</label>
             <input #firstname type="text" formControlName="firstname">
@@ -25,13 +26,11 @@
             </div>
             <label for="time">Time</label>
             <input type="time" name="time" formControlName="time">
-
-    </form>
-
-  
-      
+    </form> 
     </div>
-
-
-    <button  [disabled]="!bookingForm.valid" (click)="sendBookingRequest()">Book now</button>
+    <button [disabled]="!bookingForm.valid" (click)="sendBookingRequest()">Book now</button>  
 </div>
+<div class="spinner_container">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+</div>
+

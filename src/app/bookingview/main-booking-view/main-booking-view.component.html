@@ -11,11 +11,13 @@
                 >
             </app-inputgroup>
     </div>
+    <div *ngIf="noResults">No results found, please modify your search.</div>
     <div
         *ngIf="isTutorList"
         class="tutorList__container">
-        <app-tutor-list [tutors]="filteredTutors">
-
+        <app-tutor-list 
+            [soughtAfterSubject]="subjectSearched"
+            [tutors]="filteredTutors">
         </app-tutor-list>
     </div>
 </div>

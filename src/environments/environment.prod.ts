@@ -9,5 +9,6 @@ export const environment = {
     appId: "1:1094650223829:web:8f17f915d7058127a9965c",
     measurementId: "G-01B4ZKM3J0"  
   },
-  socketUrl: 'https://et-server.herokuapp.com/'
+  socketUrl: 'https://et-server.herokuapp.com/',
+  sessionUrl: 'https://easytutor-prototype.web.app/'
 };

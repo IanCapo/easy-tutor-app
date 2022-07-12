@@ -17,6 +17,8 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input'; 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 import { ReactiveFormsModule } from '@angular/forms';
 import { TutorListComponent } from './bookingview/tutor-list/tutor-list.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -50,7 +52,8 @@ import { BookalessonComponent } from './bookingview/bookalesson/bookalesson.comp
     FormsModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatProgressSpinnerModule
   ],
   exports: [
   ],

@@ -20,9 +20,16 @@
             <button (click)="toggleTutorCard(tutor.id, 'details')">View details</button>
             <button (click)="toggleTutorCard(tutor.id, 'book')">Book</button>
             </div>
-            <app-bookalesson [selectedTutor]="tutor" *ngIf="selectedTutorId === tutor.id && isBookLesson"></app-bookalesson>
-            <app-tutor-detail [selectedTutor]="tutor" *ngIf="selectedTutorId === tutor.id && isShowDetails"></app-tutor-detail>
-        </div> 
+            <div *ngIf="showBookingConfirmation && selectedTutorId === tutor.id">
+                <p class="success" *ngIf="isBookingConfirmation">Your booking was successfull. You will receive a confirmation email shortly.</p>
+                <p class="failed" *ngIf="!isBookingConfirmation">Something went wrong, please try again.</p>
+                <button (click)="reset()">OK</button>
+            </div>
+            <div *ngIf="!showBookingConfirmation">
+                <app-bookalesson [subject]="soughtAfterSubject" (isBookingConfirmed)="updateComponent($event)" [selectedTutor]="tutor" *ngIf="selectedTutorId === tutor.id && isBookLesson"></app-bookalesson>
+                <app-tutor-detail [selectedTutor]="tutor" *ngIf="selectedTutorId === tutor.id && isShowDetails"></app-tutor-detail>
+            </div> 
+            </div>
       </div>
 </div>
 
