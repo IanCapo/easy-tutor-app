@@ -201,7 +201,10 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
 
   disconnectFromSession = () => {
     this.websocket.emit('disconnect_socket', {roomId: this.roomId});
-    this.rtcPeerConnection.close();
+    //this.rtcPeerConnection.close();
+    this.localStream.getTracks().forEach((track: any) => {
+      track.stop();
+    })
     this.localStream = null;
     this.remoteStream = null;
     this.disableChat = true;
