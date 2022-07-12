@@ -11,7 +11,7 @@ export class SessionMainComponent implements OnInit {
   isRoomCreator: boolean = false;
   roomId: any;
   mContraints = {
-    audio: false,
+    audio: true,
     video: true
   };
   
@@ -144,8 +144,8 @@ export class SessionMainComponent implements OnInit {
     }) 
   }
 
-  addLocalTracks = (rtcPeerConnection: RTCPeerConnection) => {
-    this.localStream.getTracks().forEach((track: any) => {
+  addLocalTracks = async (rtcPeerConnection: RTCPeerConnection) => {
+    await this.localStream.getTracks().forEach((track: any) => {
         rtcPeerConnection.addTrack(track, this.localStream);
     });
   }
