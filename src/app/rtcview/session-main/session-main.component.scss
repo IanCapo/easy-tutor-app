@@ -13,9 +13,28 @@
     height: 40px;
     padding: 12px 24px;
     display: flex;
+    align-items: center;
     
-    h1 {
+    span {
+      font-size: 20px;
       cursor: pointer;
+      margin-bottom: none;
+      margin-right: 20px;
+    }
+
+    button {
+      font-size: 16px;
+      padding: 4px 8px;
+      color: darkblue;
+      border: 1px solid darkblue;
+      border-radius: 3px;
+      background: #fff;
+
+      &.leave-session {
+        margin-left: auto;
+        color: darkred;
+        border-color: darkred;
+      }
     }
   }
 

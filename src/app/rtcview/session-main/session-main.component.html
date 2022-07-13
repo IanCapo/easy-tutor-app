@@ -2,11 +2,18 @@
   <div class="video-chat-body">
 
     <div class="session_controls" *ngIf="!startedConnection">
-      <h1 (click)="connect()">Join Session</h1>
+      <button (click)="connect()">Join Session</button>
     </div>
 
-    <div class="session_controls" *ngIf="startedConnection">
-      <h1 style="margin-left: auto" (click)="disconnectFromSession()">Leave Session</h1>
+    <div class="session_controls" *ngIf="isSessionEnded">
+      <span>Session ended</span>
+      <button (click)="rejoin()">rejoin?</button>
+    </div>
+
+    <div class="session_controls" *ngIf="startedConnection && !isSessionEnded">
+      <span>Session in progress</span>
+      <button>Share screen</button>
+      <button class="leave-session" (click)="disconnectFromSession()">Leave Session</button>
     </div>
 
     <div id="video-chat-container" *ngIf="localStream">

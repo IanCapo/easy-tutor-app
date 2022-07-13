@@ -20,6 +20,7 @@ export class SessionMainComponent implements OnInit {
   socketID : string;
   startedConnection = false;
   disableChat = false;
+  isSessionEnded = false;
 
   
   iceServers = {
@@ -71,7 +72,7 @@ export class SessionMainComponent implements OnInit {
     this.websocket.listen('starting_call').subscribe(async() => {
       console.log('started call');
       if(this.isRoomCreator) {
-        this.rtcPeerConnection = new RTCPeerConnection(this.iceServers);
+        this.rtcPeerConnection = await new RTCPeerConnection(this.iceServers);
         this.addLocalTracks(this.rtcPeerConnection);
         this.rtcPeerConnection.ontrack = (e) => {
             this.remoteStream = e.streams[0];
@@ -137,14 +138,16 @@ export class SessionMainComponent implements OnInit {
     );
   }
 
-  setLocalStream() {
-    navigator.mediaDevices.getUserMedia(this.mContraints)
+  setLocalStream  = async () => {
+    await navigator.mediaDevices.getUserMedia(this.mContraints)
     .then(mediaStream => {
         this.localStream = mediaStream;
     }) 
   }
 
   addLocalTracks = async (rtcPeerConnection: RTCPeerConnection) => {
+    console.log(this.localStream);
+    
     await this.localStream.getTracks().forEach((track: any) => {
         rtcPeerConnection.addTrack(track, this.localStream);
     });
@@ -200,7 +203,7 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
   }
 
   disconnectFromSession = () => {
-    this.websocket.emit('disconnect_socket', {roomId: this.roomId});
+    // this.websocket.emit('disconnect_socket', {roomId: this.roomId});
     //this.rtcPeerConnection.close();
     this.localStream.getTracks().forEach((track: any) => {
       track.stop();
@@ -208,6 +211,15 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
     this.localStream = null;
     this.remoteStream = null;
     this.disableChat = true;
+    this.isSessionEnded = true;
+  }
+
+  rejoin() {
+    // todo
+    console.log('jejoin');
+    
+    // this.connect();
+    // this.isSessionEnded = false;
   }
 }
 
