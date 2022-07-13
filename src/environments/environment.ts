@@ -15,7 +15,12 @@ export const environment = {
   },
   //socketUrl: 'http://localhost:5000',
   socketUrl: 'https://et-server.herokuapp.com/',
-  sessionUrl: 'http://localhost:4200/'
+  sessionUrl: 'http://localhost:4200/session/',
+  emailjs: {
+    serviceID: 'service_vci4p31',
+    templateID: 'template_fxjl1l7',
+    publicKey: 'FuZufDbLFJPfD1Uuz'
+  }
 };
 
 

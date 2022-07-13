@@ -62,7 +62,7 @@ export class BookalessonComponent implements OnInit {
       session_url: `${environment.sessionUrl}${this.tutor.id}`
     }
     
-    emailjs.send('service_vci4p31', 'template_fxjl1l7', templateParams, 'FuZufDbLFJPfD1Uuz')
+    emailjs.send(environment.emailjs.serviceID, environment.emailjs.templateID, templateParams, environment.emailjs.publicKey)
     .then(res => {
       console.log('send email', res);
       if(res.status === 200)

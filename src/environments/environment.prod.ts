@@ -10,5 +10,10 @@ export const environment = {
     measurementId: "G-01B4ZKM3J0"  
   },
   socketUrl: 'https://et-server.herokuapp.com/',
-  sessionUrl: 'https://easytutor-prototype.web.app/'
-};
+  sessionUrl: 'https://easytutor-prototype.web.app/session/',
+  emailjs: {
+    serviceID: 'service_vci4p31',
+    templateID: 'template_fxjl1l7',
+    publicKey: 'FuZufDbLFJPfD1Uuz'
+  }
+}
