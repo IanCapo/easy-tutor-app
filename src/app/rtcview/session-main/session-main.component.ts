@@ -57,10 +57,10 @@ export class SessionMainComponent implements OnInit {
       this.setLocalStream();
     })
 
-    this.websocket.listen('room_joined').subscribe((data: any) => {
+    this.websocket.listen('room_joined').subscribe(async (data: any) => {
       console.log('joined room', data.roomId);
       this.roomId = data.roomId;
-      this.setLocalStream();
+      await this.setLocalStream();
       this.startCall();
       
     })
@@ -117,14 +117,11 @@ export class SessionMainComponent implements OnInit {
       })
 
       this.websocket.listen('disconnect_socket').subscribe(() => {
-        console.log('disconnet');
-        
         this.remoteStream = null;
       })
   }
 
   connect() {
-    console.log('connect');
     console.log('connect', this.roomId);
     this.websocket.emit('join', { roomId: this.roomId })
     this.startedConnection = true;
@@ -147,8 +144,8 @@ export class SessionMainComponent implements OnInit {
 
   addLocalTracks = async (rtcPeerConnection: RTCPeerConnection) => {
     console.log(this.localStream);
-    
-    await this.localStream.getTracks().forEach((track: any) => {
+
+    this.localStream.getTracks().forEach((track: any) => {
         rtcPeerConnection.addTrack(track, this.localStream);
     });
   }
@@ -168,21 +165,17 @@ export class SessionMainComponent implements OnInit {
         sdp: sessionDescription,
         roomId: this.roomId
     });
-    console.log('emitted offer');
-    
 }
 
 answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
   let sessionDescription;
-  console.log('create answer');
-  
   try {
       sessionDescription = await rtcPeerConnection.createAnswer();
       rtcPeerConnection.setLocalDescription(sessionDescription);
   } catch (e) {
       console.error(e)
   }
-  console.log('wait answer');
+
   this.websocket.emit('webrtc_answer', {
       type: 'webrtc_answer',
       sdp: sessionDescription,
@@ -191,8 +184,6 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
 }
 
   sendIceCandidate = (e: any) => {
-    console.log('e.candidate', e.candidate);
-    
     if(e.candidate) {
         this.websocket.emit('webrtc_ice_candidate', {
             roomId: this.roomId,
