@@ -12,7 +12,7 @@
 
     <div class="session_controls" *ngIf="startedConnection && !isSessionEnded">
       <span>Session in progress</span>
-      <button>Share screen</button>
+      <button (click)="shareScreen()">Share screen</button>
       <button class="leave-session" (click)="disconnectFromSession()">Leave Session</button>
     </div>
 

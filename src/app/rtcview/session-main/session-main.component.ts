@@ -193,6 +193,48 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
     }
   }
 
+  shareScreen =  async () => {
+    const screenMediaStream = await this.getLocalScreenStream();
+    const track = screenMediaStream?.getVideoTracks()[0];
+    
+    if(track) {
+      if(this.replaceTrack(track)) {
+        alert('you are now sharing your screen')
+        track.addEventListener('ended', async () => {
+
+          const stream = await navigator.mediaDevices.getUserMedia({video: true})
+          let vTrack = stream.getTracks()[0]
+          this.replaceTrack(vTrack)
+        })
+      } else {
+        console.log('failed');
+      }
+    }
+  }
+
+  getLocalScreenStream = async () => {
+    try{
+      const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false})
+      return stream;
+    } catch(e) {
+      console.log('failed', e);
+      return null;
+    }
+  }
+
+  replaceTrack = (nTrack: any): boolean => {
+    let success =  false;
+    this.rtcPeerConnection.getSenders().forEach((sender: any) => {
+      if(sender.track.kind === 'video') {
+        sender.replaceTrack(nTrack);
+        success = true;
+      } else {
+        success = false
+      }
+    })
+    return success;
+  }
+
   disconnectFromSession = () => {
     // this.websocket.emit('disconnect_socket', {roomId: this.roomId});
     //this.rtcPeerConnection.close();
