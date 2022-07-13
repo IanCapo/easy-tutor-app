@@ -6,6 +6,8 @@
             <app-inputgroup 
                 *ngFor="let question of questions, let i = index" 
                 title="{{question.text}}" 
+                class="{{question.key}}"
+                [inputSuggestions]="inputSuggestions[question.key]"
                 [hidden]="currStep != i"
                 (newBlurEvent)="setStep($event, question.key)"
                 >

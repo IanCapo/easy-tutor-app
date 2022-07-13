@@ -1,4 +1,6 @@
 import { Component, Injectable, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { map, Observable, startWith } from 'rxjs';
 
 
 
@@ -7,13 +9,28 @@ import { Component, Injectable, Input, OnInit, Output, EventEmitter } from '@ang
   templateUrl: './inputgroup.component.html',
   styleUrls: ['./inputgroup.component.scss']
 })
-export class InputgroupComponent {
-  @Input('title') title = '';
-  @Output() newBlurEvent = new EventEmitter();
-  
-  constructor() {}
+export class InputgroupComponent implements OnInit {
+    @Input('title') title = '';
+    @Input('inputSuggestions') options: string[] = [];
+    @Output() newBlurEvent = new EventEmitter();
 
-  onBlur($event: any) {
+  inputControl = new FormControl('');
+  filteredOptions: Observable<string[]>;
+
+  ngOnInit() {
+    this.filteredOptions = this.inputControl.valueChanges.pipe(
+      startWith(''),
+      map(val => this._filter(val || '')),
+    );
+  }
+
+  private _filter(val: string): string[] {
+    const filterVal = val.toLowerCase();
+
+    return this.options.filter(option => option.toLowerCase().includes(filterVal));
+  }
+
+  public onBlur($event: any) {
     this.newBlurEvent.emit($event.target.value);
   }  
 }

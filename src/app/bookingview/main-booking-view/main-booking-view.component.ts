@@ -15,7 +15,7 @@ interface QueryObject {
 
 export class MainBookingViewComponent implements OnInit {
   public questions: Object[] = [
-    {key: 'languageSpoken', text: "Which language should your teacher speak?"},
+    {key: 'languagesSpoken', text: "Which language should your teacher speak?"},
     {key: 'subject', text: "What subject are you looking for?"},
     {key: 'type', text: "And what's the purpose of the lesson?"}
   ]
@@ -31,6 +31,12 @@ export class MainBookingViewComponent implements OnInit {
 
   public subjectSearched: string = '';
 
+  public inputSuggestions = {
+    languagesSpoken: [''],
+    subject: [''],
+    type: ['']
+}
+
 
   constructor(dbService: DatabaseService) { 
     this._dbService = dbService;
@@ -39,10 +45,42 @@ export class MainBookingViewComponent implements OnInit {
   ngOnInit(): void {
     this._dbService.getTutors().pipe(
       map(tutors => {
-        tutors.forEach((tutor: any) => this.tutors.push(tutor))
+        tutors.forEach((tutor: any) => {
+          this.tutors.push(tutor);
+        }); 
       })
     )
     .subscribe()
+    this._dbService.getTutors().pipe(
+      map(tutors => {
+        tutors.forEach((tutor:any) => {
+          this.getInputSuggestions(tutor)
+        });
+      })
+    ).subscribe()
+  }
+
+
+  private getInputSuggestions(tutor: any) {
+    tutor.languagesSpoken.forEach((l: string) => {
+      if(!this.inputSuggestions.languagesSpoken.includes(l)) {
+        this.inputSuggestions.languagesSpoken.push(l)
+      }
+    });
+
+    tutor.subjects.forEach((s: any) => {
+      if(!this.inputSuggestions.subject.includes(s.name)) {
+        this.inputSuggestions.subject.push(s.name)
+      }
+    });
+
+    tutor.subjects.forEach((s: any) => {
+      s.types.forEach((t: string) => {
+        if(!this.inputSuggestions.type.includes(t)) {
+          this.inputSuggestions.type.push(t)
+        }
+      })
+    });
   }
 
   public setStep($value: any, $key: string) {

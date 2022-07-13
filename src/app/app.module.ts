@@ -26,6 +26,7 @@ import { TutorDetailComponent } from './bookingview/tutor-detail/tutor-detail.co
 import { SessionMainComponent } from './rtcview/session-main/session-main.component';
 import { ChatComponentComponent } from './rtcview/chat-component/chat-component.component';
 import { BookalessonComponent } from './bookingview/bookalesson/bookalesson.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { BookalessonComponent } from './bookingview/bookalesson/bookalesson.comp
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatAutocompleteModule
   ],
   exports: [
   ],
