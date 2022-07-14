@@ -27,7 +27,7 @@ export class SessionMainComponent implements OnInit {
     iceServers: [
       { urls: 'stun:stun.l.google.com:19302' },
       { urls: 'stun:stun1.l.google.com:19302' }
-  ]
+    ]
   }
 
   public rtcPeerConnection: RTCPeerConnection
@@ -75,6 +75,7 @@ export class SessionMainComponent implements OnInit {
         this.rtcPeerConnection = await new RTCPeerConnection(this.iceServers);
         this.addLocalTracks(this.rtcPeerConnection);
         this.rtcPeerConnection.ontrack = (e) => {
+          console.log('creator', e.streams[0].getVideoTracks());
             this.remoteStream = e.streams[0];
         };
         
@@ -90,6 +91,9 @@ export class SessionMainComponent implements OnInit {
          this.rtcPeerConnection = new RTCPeerConnection(this.iceServers);
           this.addLocalTracks(this.rtcPeerConnection);
           this.rtcPeerConnection.ontrack = (e) => {
+            console.log('!creator', e.streams[0].getAudioTracks());
+           // console.log('!creator', e.streams[0].getVideoTracks());
+            
               this.remoteStream = e.streams[0];
           };
           this.rtcPeerConnection.onicecandidate = e => this.sendIceCandidate(e);
@@ -139,12 +143,12 @@ export class SessionMainComponent implements OnInit {
     await navigator.mediaDevices.getUserMedia(this.mContraints)
     .then(mediaStream => {
         this.localStream = mediaStream;
+        this.localStream.getAudioTracks().forEach((track: any) => track.enabled = false)
     }) 
   }
 
   addLocalTracks = async (rtcPeerConnection: RTCPeerConnection) => {
-    console.log(this.localStream);
-
+    
     this.localStream.getTracks().forEach((track: any) => {
         rtcPeerConnection.addTrack(track, this.localStream);
     });
@@ -217,7 +221,7 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
       const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false})
       return stream;
     } catch(e) {
-      console.log('failed', e);
+      alert('Please enable screen capture in System Preferences and try again.');
       return null;
     }
   }

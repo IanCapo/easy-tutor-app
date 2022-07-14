@@ -12,12 +12,12 @@
 
     <div class="session_controls" *ngIf="startedConnection && !isSessionEnded">
       <span>Session in progress</span>
-      <button (click)="shareScreen()">Share screen</button>
+      <button [disabled]="disableChat" (click)="shareScreen()">Share screen</button>
       <button class="leave-session" (click)="disconnectFromSession()">Leave Session</button>
     </div>
 
     <div id="video-chat-container" *ngIf="localStream">
-      <video class="local-video" autoplay="autoplay" [srcObject]="localStream" ></video>
+      <video class="local-video" autoplay="autoplay" [srcObject]="localStream"></video>
       <div class="remote-video-container">
         <video class="remote-video" autoplay="autoplay" [srcObject]="remoteStream"></video>
       </div> 
