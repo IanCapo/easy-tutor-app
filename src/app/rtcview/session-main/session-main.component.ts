@@ -143,7 +143,7 @@ export class SessionMainComponent implements OnInit {
     await navigator.mediaDevices.getUserMedia(this.mContraints)
     .then(mediaStream => {
         this.localStream = mediaStream;
-        this.localStream.getAudioTracks().forEach((track: any) => track.enabled = false)
+        //this.localStream.getAudioTracks().forEach((track: any) => track.enabled = false)
     }) 
   }
 
