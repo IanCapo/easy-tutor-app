@@ -29,6 +29,7 @@
       border: 1px solid darkblue;
       border-radius: 3px;
       background: #fff;
+      margin-left: 20px;
 
       &.leave-session {
         margin-left: auto;
@@ -48,11 +49,19 @@
     background-color: black;
   }
 
-  .local-video {
+  .local-video-container {
     position: absolute;
     height: 15%;
     width: 15%;
     bottom: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .local-video {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
 
@@ -61,6 +70,9 @@
     width: 80%;
     height: 90%;
     z-index: -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     .remote-video {
       position: absolute;

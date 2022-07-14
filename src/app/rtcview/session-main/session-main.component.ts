@@ -1,3 +1,4 @@
+import { catchError } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { WebsocketService } from 'src/services/websocket.service';
 import { ActivatedRoute, ParamMap } from '@angular/router'
@@ -15,14 +16,18 @@ export class SessionMainComponent implements OnInit {
     video: true
   };
   
-  localStream: any;
-  localStreamClone: any;
-  remoteStream: any;
-  socketID : string;
-  startedConnection = false;
-  disableChat = false;
-  isSessionEnded = false;
-
+  public localStream: any;
+  public localStreamClone: any;
+  public remoteStream: any;
+  private socketID : string;
+  public startedConnection = false;
+  public disableChat = true;
+  public isSessionEnded = false;
+  public isCameraOn = false;
+  public isLoading = {
+    local: false,
+    remote: false
+  }
   
   iceServers = {
     iceServers: [
@@ -42,28 +47,31 @@ export class SessionMainComponent implements OnInit {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.roomId = params.get('room');
     })
-    console.log('this.roomId from route', this.roomId);
     
     this.websocket.listen('join').subscribe((data) => {
       console.log(data);
     })
 
-    this.websocket.listen('room_created').subscribe((data: any) => {
-      console.log('data create room', data.roomId);
-      
+    this.websocket.listen('room_created').subscribe(async (data: any) => {
+      this.isLoading.local = true;
       this.isRoomCreator = true;
       this.roomId = data.roomId;
-      console.log('roomId', this.roomId);
       
-      this.setLocalStream();
+      let localStreamSuccess = await this.setLocalStream();
+      if(!localStreamSuccess) {
+        alert('Please enable camera and microfone.')
+      }
     })
 
     this.websocket.listen('room_joined').subscribe(async (data: any) => {
-      console.log('joined room', data.roomId);
       this.roomId = data.roomId;
-      await this.setLocalStream();
-      this.startCall();
-      
+      let localStreamSuccess = await this.setLocalStream();
+      if(localStreamSuccess) {
+        console.log('local success');
+        
+        this.isLoading.local = false;
+        this.startCall();
+      }
     })
 
     this.websocket.listen('room_inaccesabible').subscribe((data: any) => {
@@ -71,37 +79,35 @@ export class SessionMainComponent implements OnInit {
     })
 
     this.websocket.listen('starting_call').subscribe(async() => {
-      console.log('started call');
-      if(this.isRoomCreator) {
+        this.isLoading.remote = true;
+        this.disableChat = false;
         this.rtcPeerConnection = await new RTCPeerConnection(this.iceServers);
         this.addLocalTracks(this.rtcPeerConnection);
         this.rtcPeerConnection.ontrack = (e) => {
-          console.log('creator', e.streams[0].getVideoTracks());
             this.remoteStream = e.streams[0];
-        };
-        
+            this.remoteStream.getVideoTracks().forEach((track: MediaStreamTrack) => {
+              track.addEventListener('ended', () => console.log('remote video muted'));
+            })
+            this.isLoading.remote = false;
+        };  
         this.rtcPeerConnection.onicecandidate = this.sendIceCandidate;
         await this.createOffer(this.rtcPeerConnection);
-     }  
     })
 
     this.websocket.listen('webrtc_offer').subscribe(async(e: any) => {
       console.log('socket event callback: webrtc_offer');
-  
-      if(!this.isRoomCreator) {
          this.rtcPeerConnection = new RTCPeerConnection(this.iceServers);
           this.addLocalTracks(this.rtcPeerConnection);
           this.rtcPeerConnection.ontrack = (e) => {
-            console.log('!creator', e.streams[0].getAudioTracks());
-           // console.log('!creator', e.streams[0].getVideoTracks());
-            
               this.remoteStream = e.streams[0];
+              this.remoteStream.getVideoTracks().forEach((track: MediaStreamTrack) => {
+                track.addEventListener('ended', () => console.log('remote video muted'));
+              })
           };
           this.rtcPeerConnection.onicecandidate = e => this.sendIceCandidate(e);
           this.rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(e));
   
           await this.answerOffer(this.rtcPeerConnection);
-      }
     }) 
   
 
@@ -117,7 +123,7 @@ export class SessionMainComponent implements OnInit {
           sdpMLineIndex: data.label,
           candidate: data.candidate
       });
-    
+     
       this.rtcPeerConnection.addIceCandidate(candidate);
       })
 
@@ -133,25 +139,31 @@ export class SessionMainComponent implements OnInit {
   }
 
   startCall() {
+    this.disableChat = false;
     console.log(this.roomId);
-    
     this.websocket.emit('starting_call', 
       { roomId: this.roomId }
     );
   }
 
-  setLocalStream  = async () => {
-    await navigator.mediaDevices.getUserMedia(this.mContraints)
-    .then(mediaStream => {
-        this.localStream = mediaStream;
-        this.localStreamClone = mediaStream.clone();
-        this.localStreamClone.getAudioTracks().forEach((track:any) => {
-          console.log(track);
+  setLocalStream = async () => {
+    try {
+      await navigator.mediaDevices.getUserMedia(this.mContraints)
+      .then(mediaStream => {
+          this.localStream = mediaStream;
+          this.localStreamClone = mediaStream.clone();
+          this.localStreamClone.getAudioTracks().forEach((track: MediaStreamTrack) => {
+            track.enabled = false;
+          })
           
-          track.enabled = false;
-        }); 
-        //this.localStream.getAudioTracks().forEach((track: any) => track.enabled = false)
-    }) 
+      }) 
+      this.isCameraOn = true;
+      this.isLoading.local = false;
+      return true
+    } catch (e) {
+      this.isCameraOn = false;
+     return false;
+    }
   }
 
   addLocalTracks = async (rtcPeerConnection: RTCPeerConnection) => {
@@ -211,7 +223,6 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
       if(this.replaceTrack(track)) {
         alert('you are now sharing your screen')
         track.addEventListener('ended', async () => {
-
           const stream = await navigator.mediaDevices.getUserMedia({video: true})
           let vTrack = stream.getTracks()[0]
           this.replaceTrack(vTrack)
@@ -227,7 +238,7 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
       const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false})
       return stream;
     } catch(e) {
-      alert('Please enable screen capture in System Preferences and try again.');
+      alert('Please enable screen capture in System Preferences and turn on camera.');
       return null;
     }
   }
@@ -263,6 +274,20 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
     
     // this.connect();
     // this.isSessionEnded = false;
+  }
+
+  disbaleVideo() {
+    console.log('click off');
+    
+    let localTrack = this.localStream.getTracks().find((track: any) => track.kind === 'video')
+    localTrack.enabled = false;
+    this.isCameraOn = false;
+  }
+
+  enableVideo = async () => {
+    let localTrack = this.localStream.getTracks().find((track: any) => track.kind === 'video')
+    localTrack.enabled = true;
+    this.isCameraOn = true;
   }
 }
 
