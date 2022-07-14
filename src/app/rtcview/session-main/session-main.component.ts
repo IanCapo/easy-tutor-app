@@ -16,6 +16,7 @@ export class SessionMainComponent implements OnInit {
   };
   
   localStream: any;
+  localStreamClone: any;
   remoteStream: any;
   socketID : string;
   startedConnection = false;
@@ -143,12 +144,17 @@ export class SessionMainComponent implements OnInit {
     await navigator.mediaDevices.getUserMedia(this.mContraints)
     .then(mediaStream => {
         this.localStream = mediaStream;
+        this.localStreamClone = mediaStream.clone();
+        this.localStreamClone.getAudioTracks().forEach((track:any) => {
+          console.log(track);
+          
+          track.enabled = false;
+        }); 
         //this.localStream.getAudioTracks().forEach((track: any) => track.enabled = false)
     }) 
   }
 
   addLocalTracks = async (rtcPeerConnection: RTCPeerConnection) => {
-    
     this.localStream.getTracks().forEach((track: any) => {
         rtcPeerConnection.addTrack(track, this.localStream);
     });
@@ -240,8 +246,8 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
   }
 
   disconnectFromSession = () => {
-    // this.websocket.emit('disconnect_socket', {roomId: this.roomId});
-    //this.rtcPeerConnection.close();
+    this.websocket.emit('disconnect_socket', {roomId: this.roomId});
+    this.rtcPeerConnection.close();
     this.localStream.getTracks().forEach((track: any) => {
       track.stop();
     })
