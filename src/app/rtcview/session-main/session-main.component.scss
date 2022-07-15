@@ -138,8 +138,14 @@ $chatBackground: #1d1b2c;
         bottom: 20px;
         right: 20px;
         border: none;
-        background: transparent;
-        z-index: 1000;
+        background: #fff;
+        z-index: 1;
+        border-radius: 50%;
+        height: 52px;
+        width: 52px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         mat-icon {
           transform: scale(1.5);
