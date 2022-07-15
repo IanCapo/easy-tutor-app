@@ -1,7 +1,13 @@
+$baseColorBlue : #3f51b5;
+$darkRed: darkred;
+$chatBackground: #1d1b2c;
+
 .session-main {
   width: 100%;
   height: 90%;
   display: flex;
+  overflow: hidden;
+  position: relative;
 
   .video-chat-body {
     width: 80%;
@@ -10,7 +16,7 @@
 
   .session_controls {
     border-bottom: 1px solid black;
-    height: 40px;
+    height: 5%;
     padding: 12px 24px;
     display: flex;
     align-items: center;
@@ -33,8 +39,8 @@
 
       &.leave-session {
         margin-left: auto;
-        color: darkred;
-        border-color: darkred;
+        color: $darkRed;
+        border-color: $darkRed;
       }
     }
   }
@@ -47,32 +53,36 @@
   #video-chat-container {
     width: 100%;
     background-color: black;
+
+    .local-video-container {
+      position: absolute;
+      height: 20%;
+      width: 15%;
+      bottom: 0px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+      .local-video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+    }
   }
 
-  .local-video-container {
-    position: absolute;
-    height: 15%;
-    width: 15%;
-    bottom: 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 
-  .local-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
 
   .remote-video-container{
     position: absolute;
     width: 80%;
-    height: 90%;
+    height: 100%;
     z-index: -1;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 0;
 
     .remote-video {
       position: absolute;
@@ -86,6 +96,102 @@
   #disconnect-btn {
       position: absolute;
       top: 100px;
+  }
+}
+
+@media only screen and (max-width:768px) {
+  .session-main {
+    width: 100%;
+    height: 95%;
+    position: relative;
+    overflow: hidden;
+  
+    .video-chat-body {
+      width: 100%;
+      height: 100%;
+
+      #video-chat-container {
+        width: 95%;
+        background-color: black;
+
+        .remote-video-container{
+          width: 100%;
+        }
+    
+        .local-video-container {
+          position: absolute;
+          height: 110px;
+          width: 170px;
+    
+          .local-video {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+
+
+  
+
+      .toggle-chat-button {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        border: none;
+        background: transparent;
+        z-index: 1000;
+
+        mat-icon {
+          transform: scale(1.5);
+          color: $baseColorBlue;
+        }
+
+        &.isChatShowing {
+          left: -30%;
+          
+          mat-icon {
+            color: $darkRed;
+          }
+        }
+      }
+    }
+  
+    .session_controls {
+      border-bottom: 1px solid black;
+      padding: 12px;
+      
+      span {
+        font-size: 14px;
+        margin-right: 0px;
+      }
+  
+      button {
+        font-size: 14px;
+        margin-left: 8px;
+      }
+    }
+  
+    .chat-container {
+      display: none;      
+      width: 100%;
+      position: absolute;
+      right: -100%;
+
+      &.openChat {
+        display: block;
+        animation: slideIn .5  forwards;
+      }
+    }
+  
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    right: -100%
+  }
+  100% {
+    right: 0;
   }
 }
 

@@ -16,6 +16,7 @@ export class SessionMainComponent implements OnInit {
     video: true
   };
   
+  public isMobile = window.innerWidth < 769;
   public localStream: any;
   public localStreamClone: any;
   public remoteStream: any;
@@ -28,6 +29,8 @@ export class SessionMainComponent implements OnInit {
     local: false,
     remote: false
   }
+
+  public isChatShowing = false;
   
   iceServers = {
     iceServers: [
@@ -129,6 +132,10 @@ export class SessionMainComponent implements OnInit {
 
       this.websocket.listen('disconnect_socket').subscribe(() => {
         this.remoteStream = null;
+      })
+
+      this.websocket.listen('message').subscribe((data: any) => {
+        this.isChatShowing = true;
       })
   }
 
@@ -288,6 +295,10 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
     let localTrack = this.localStream.getTracks().find((track: any) => track.kind === 'video')
     localTrack.enabled = true;
     this.isCameraOn = true;
+  }
+
+  toggleChat() {
+    this.isChatShowing = !this.isChatShowing;
   }
 }
 

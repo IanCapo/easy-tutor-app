@@ -1,3 +1,8 @@
+$baseColorBlue : #3f51b5;
+$darkRed: darkred;
+$chatBackground: #1d1b2c;
+$buttonGreen: rgb(11, 135, 11);
+
 .chat-view {
     width: 100%;
     height: 100%;
@@ -56,12 +61,59 @@
 
         .send-btn {
             align-self: flex-end;
-            padding: 4px 6px;
+            padding: 6px 8px;
             border-radius: 3px;
-            background: rgb(0, 96, 0);
             color: #fff;
-            border: 1px solid gray;
+            background: transparent;
+            border: 1px solid $buttonGreen;
             margin-top: 12px;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+    }
+}
+
+@media only screen and (max-width:768px) {
+    .chat-view {       
+        width: 90vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: absolute;
+        right: 10px;
+
+        .message_container {
+            background-color: #1d1b2cb8;
+            max-width: 75%;
+    
+            .message {
+                font-size: 14px;
+                padding: 3px 6px;
+                width: fit-content;
+                border-radius: 4px;
+                max-width: 80%;
+        
+                &.self {
+                    align-self: flex-end;
+                    background-color: rgb(164, 242, 236);
+                }
+        
+                &.received {
+                    align-self: flex-start;
+                    background-color: rgb(223, 236, 128);
+                }
+            }
+        }
+    
+        .message-input-container {
+            min-height: unset;
+            height: 140px;
+            width: 75%;
+    
+            .message-input {
+                height: 20px;
+            }
         }
     }
 }

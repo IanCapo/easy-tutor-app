@@ -27,7 +27,10 @@
         <mat-spinner *ngIf="isLoading.remote"></mat-spinner>
         <video *ngIf="!isLoading.remote" class="remote-video" autoplay="autoplay" [srcObject]="remoteStream"></video>
       </div> 
+      <button class="toggle-chat-button" *ngIf="isMobile" (click)="toggleChat()" [class.isChatShowing]="isChatShowing">
+        <mat-icon aria-hidden="false" aria-label="chat icon">{{!isChatShowing ? 'chat' : 'close'}}</mat-icon>
+      </button>
     </div>
   </div>
-  <app-chat-component class="chat-container" (isConnectionClosed)="disconnectFromSession()" [isDisableChat]="disableChat"></app-chat-component>
+  <app-chat-component class="chat-container" [class.openChat]="isChatShowing" (isConnectionClosed)="disconnectFromSession()" [isDisableChat]="disableChat"></app-chat-component>
 </div>
