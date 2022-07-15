@@ -72,8 +72,6 @@ $chatBackground: #1d1b2c;
     }
   }
 
-
-
   .remote-video-container{
     position: absolute;
     width: 80%;
@@ -110,6 +108,21 @@ $chatBackground: #1d1b2c;
       width: 100%;
       height: 100%;
 
+      .session_controls {
+        border-bottom: 1px solid black;
+        padding: 12px;
+        
+        span {
+          font-size: 14px;
+          margin-right: 0px;
+        }
+        
+        button {
+          font-size: 12px;
+          margin: 8px;
+        }
+      }
+
       #video-chat-container {
         width: 95%;
         background-color: black;
@@ -130,13 +143,10 @@ $chatBackground: #1d1b2c;
         }
       }
 
-
-  
-
       .toggle-chat-button {
         position: absolute;
-        bottom: 20px;
-        right: 20px;
+        bottom: 1rem;
+        right: 1rem;
         border: none;
         background: #fff;
         z-index: 1;
@@ -153,27 +163,12 @@ $chatBackground: #1d1b2c;
         }
 
         &.isChatShowing {
-          left: -30%;
+          top: 0;
           
           mat-icon {
             color: $darkRed;
           }
         }
-      }
-    }
-  
-    .session_controls {
-      border-bottom: 1px solid black;
-      padding: 12px;
-      
-      span {
-        font-size: 14px;
-        margin-right: 0px;
-      }
-  
-      button {
-        font-size: 14px;
-        margin-left: 8px;
       }
     }
   

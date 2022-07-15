@@ -15,6 +15,7 @@ export class ChatComponentComponent implements OnInit {
   public messageInput: string = '';
   
   public isConnected = false;
+  public isMobile: boolean = window.outerWidth < 769;
 
   constructor(private websocket: WebsocketService) { 
     this.socketID = websocket.socket.is

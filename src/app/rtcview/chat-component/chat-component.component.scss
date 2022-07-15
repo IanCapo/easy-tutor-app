@@ -87,6 +87,7 @@ $buttonGreen: rgb(11, 135, 11);
         .message_container {
             background-color: #1d1b2cb8;
             max-width: 75%;
+            padding-top: 3.5rem;
     
             .message {
                 font-size: 14px;
@@ -109,7 +110,7 @@ $buttonGreen: rgb(11, 135, 11);
     
         .message-input-container {
             min-height: unset;
-            height: 140px;
+            height: 10%;
             width: 75%;
     
             .message-input {

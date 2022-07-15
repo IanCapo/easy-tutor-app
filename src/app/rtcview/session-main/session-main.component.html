@@ -12,7 +12,7 @@
 
     <div class="session_controls" *ngIf="startedConnection && !isSessionEnded">
       <span>Session in progress</span>
-      <button [disabled]="disableChat" (click)="shareScreen()">Share screen</button>
+      <button *ngIf="!isMobile" [disabled]="disableChat" (click)="shareScreen()">Share screen</button>
       <button *ngIf="isCameraOn" (click)="disbaleVideo()">Turn off camera</button>
       <button *ngIf="!isCameraOn" (click)="enableVideo()">Turn on camera</button>
       <button class="leave-session" (click)="disconnectFromSession()">Leave Session</button>

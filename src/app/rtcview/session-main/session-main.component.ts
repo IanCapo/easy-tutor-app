@@ -16,7 +16,7 @@ export class SessionMainComponent implements OnInit {
     video: true
   };
   
-  public isMobile = window.innerWidth < 769;
+  public isMobile = window.outerWidth < 769;
   public localStream: any;
   public localStreamClone: any;
   public remoteStream: any;
