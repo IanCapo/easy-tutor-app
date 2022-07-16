@@ -113,6 +113,8 @@ $buttonGreen: rgb(11, 135, 11);
             min-height: unset;
             height: 10%;
             width: 75%;
+            position: absolute;
+            bottom: 0;
     
             .message-input {
                 height: 20px;
