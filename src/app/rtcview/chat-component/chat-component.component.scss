@@ -77,18 +77,19 @@ $buttonGreen: rgb(11, 135, 11);
 @media only screen and (max-width:768px) {
     .chat-view {       
         width: 90vw;
-        height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         position: absolute;
         right: 10px;
+        border-radius: 4px;
+
 
         .message_container {
             background-color: #1d1b2cb8;
             max-width: 75%;
             padding-top: 3.5rem;
-            height: 90%;
+    
     
             .message {
                 font-size: 14px;
@@ -111,11 +112,13 @@ $buttonGreen: rgb(11, 135, 11);
     
         .message-input-container {
             min-height: unset;
-            height: 10%;
+            height: 40px;
             width: 75%;
             position: absolute;
             bottom: 0;
-    
+            border-radius: 4px;
+
+        
             .message-input {
                 height: 20px;
             }

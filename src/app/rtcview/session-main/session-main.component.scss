@@ -132,14 +132,8 @@ $chatBackground: #1d1b2c;
         }
     
         .local-video-container {
-          position: absolute;
           height: 110px;
           width: 170px;
-    
-          .local-video {
-            width: 100%;
-            height: 100%;
-          }
         }
       }
 
@@ -172,15 +166,15 @@ $chatBackground: #1d1b2c;
       }
     }
   
-    .chat-container {
-      display: none;      
+    .chat-container {    
       width: 100%;
       position: absolute;
       right: -100%;
+      height: 95vh;
 
       &.openChat {
         display: block;
-        animation: slideIn .5  forwards;
+        animation: slideIn 5  forwards;
       }
     }
   
