@@ -16,7 +16,7 @@ export class SessionMainComponent implements OnInit {
     video: true
   };
   
-  public isMobile = window.outerWidth < 769;
+  public isMobile = this.isMobileDevice();
   public localStream: any;
   public localStreamClone: any;
   public remoteStream: any;
@@ -47,6 +47,7 @@ export class SessionMainComponent implements OnInit {
 
 
   ngOnInit(): void {
+    console.log(this.isMobile);
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.roomId = params.get('room');
     })
@@ -265,22 +266,24 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
 
   disconnectFromSession = () => {
     this.websocket.emit('disconnect_socket', {roomId: this.roomId});
-    this.rtcPeerConnection.close();
+    if(this.rtcPeerConnection)
+      this.rtcPeerConnection.close();
+
     this.localStream.getTracks().forEach((track: any) => {
       track.stop();
+      this.remoteStream = null;
+      this.disableChat = true;
     })
     this.localStream = null;
-    this.remoteStream = null;
-    this.disableChat = true;
     this.isSessionEnded = true;
   }
 
   rejoin() {
-    // todo
-    console.log('jejoin');
-    
-    // this.connect();
-    // this.isSessionEnded = false;
+    this.isSessionEnded = false;
+    console.log('rejoin');
+    this.connect();
+    this.isRoomCreator = false;
+    this.isSessionEnded = false;
   }
 
   disbaleVideo() {
@@ -299,6 +302,11 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
 
   toggleChat() {
     this.isChatShowing = !this.isChatShowing;
+  }
+
+  isMobileDevice() {
+    const userAgent = window.navigator.userAgent.toLowerCase()
+    return userAgent.includes('mobile') || userAgent.includes('phone') || window.innerWidth < 769 ;
   }
 }
 

@@ -15,7 +15,7 @@ export class ChatComponentComponent implements OnInit {
   public messageInput: string = '';
   
   public isConnected = false;
-  public isMobile: boolean = window.outerWidth < 769;
+  public isMobile: boolean = this.isMobileDevice();
 
   constructor(private websocket: WebsocketService) { 
     this.socketID = websocket.socket.is
@@ -65,5 +65,10 @@ export class ChatComponentComponent implements OnInit {
       let newPos = div.clientHeight;
       div.scrollTop = newPos;
     }
+  }
+
+  isMobileDevice() {
+    const userAgent = window.navigator.userAgent.toLowerCase()
+    return userAgent.includes('mobile') || userAgent.includes('phone') || window.innerWidth < 769 ;
   }
 }
