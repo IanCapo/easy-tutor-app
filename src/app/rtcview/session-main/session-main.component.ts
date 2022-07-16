@@ -305,6 +305,8 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
   }
 
   isMobileDevice() {
+    console.log(window.navigator.userAgent);
+    
     const userAgent = window.navigator.userAgent.toLowerCase()
     return userAgent.includes('mobile') || userAgent.includes('phone') || window.innerWidth < 769 ;
   }
