@@ -71,4 +71,13 @@ export class ChatComponentComponent implements OnInit {
     const userAgent = window.navigator.userAgent.toLowerCase()
     return userAgent.includes('mobile') || userAgent.includes('phone') || window.innerWidth < 769 ;
   }
+
+  focusOnInput () {
+    console.log('clicked focus');
+    
+    let input = document.querySelector('#input') as HTMLElement;
+    console.log(input);
+    
+    input.focus();
+  }
 }
