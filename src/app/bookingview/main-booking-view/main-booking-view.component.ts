@@ -105,7 +105,6 @@ export class MainBookingViewComponent implements OnInit {
     this.filteredTutors = [...tutors]
     .filter((tutor: any) => {
       const isLanguagesSpoken = this.queryData[0].value ? tutor.languagesSpoken.includes(this.queryData[0].value) : true;
-      console.log('isLanguagesSpoken', isLanguagesSpoken);
       if(isLanguagesSpoken) {
         return true
       } else {

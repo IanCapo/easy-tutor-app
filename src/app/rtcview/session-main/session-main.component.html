@@ -7,7 +7,6 @@
 
     <div class="session_controls" *ngIf="isSessionEnded">
       <span>Session ended</span>
-      <button (click)="rejoin()">rejoin?</button>
     </div>
 
     <div class="session_controls" *ngIf="startedConnection && !isSessionEnded">

@@ -2,12 +2,12 @@
     {
         "id": "012345",
         "firstname": "Peter",
-        "lastname": "Smith",
-        "description": "djfnvlkdnfg",
+        "lastname": "Mayer",
+        "description": "I am Peter, I love languages and speak 5 languages fluently. I was born in Germany, raised in the UK and now live in Spain, married to an Italian.",
         "languagesSpoken": ["English", "Spanish", "German"],
         "subjects": [
             {
-                "name": "Math",
+                "name": "Spanish",
                 "levels": ["University", "Primary School", "Highschool"],
                 "types": ["Exam Preparation"],
                 "lessonPrice": "17.5"
@@ -16,32 +16,32 @@
                 "name": "English",
                 "levels": ["University", "Primary School", "Highschool"],
                 "types": ["Exam Preparation", "Conversation"],
-                "lessonPrice": "17.5"
+                "lessonPrice": "16.2"
             }, 
             {
                 "name": "German",
                 "levels": ["University", "Primary School", "Highschool"],
                 "types": ["Exam Preparation", "Conversation"],
-                "lessonPrice": "17.5"
+                "lessonPrice": "18.6"
             }
      ],
         "paymentInfo": "Paypal",
-        "email": "peter.smith@petersmith.com",
-        "profilePicture": "/...",
-        "phoneNumber": "+441234567890"
+        "email": "peter.mayer@peterslanguageschool.com",
+        "profilePicture": "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
+        "phoneNumber": "+341234567890"
     },
     {
-        "id": "123456",
+        "id": "97234623",
         "firstname": "Jane",
         "lastname": "Doe",
-        "description": "djfnvlkdnfg",
+        "description": "I am a univerity student at Oxford University, majroing in mathematics with a minor in physics.",
         "languagesSpoken": ["English"],
         "subjects": [
             {
                 "name": "Math",
-                "levels": ["University", "Primary School", "Highschool"],
+                "levels": ["University"],
                 "types": ["Exam Preparation"],
-                "lessonPrice": "17.5"
+                "lessonPrice": "21.5"
             },
             {
                 "name": "Physics",
@@ -52,8 +52,58 @@
         ],
         "paymentInfo": "Paypal",
         "email": "jane.doe@gmail.com",
-        "profilePicture": "/...",
+        "profilePicture": "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHdvbWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
         "phoneNumber": "+44987654321"
+    },
+    {
+        "id": "07683485",
+        "firstname": "Alberto",
+        "lastname": "Luigi",
+        "description": "MY name is Luigi, I am a teacher in Italy. I teach Italian to foreign students.",
+        "languagesSpoken": ["Italian", "English", "German"],
+        "subjects": [
+            {
+                "name": "Italian",
+                "levels": ["Primary School", "Highschool"],
+                "types": ["Conversation"],
+                "lessonPrice": "12.5"
+            }
+        ],
+        "paymentInfo": "Paypal",
+        "email": "a.lu@gmail.com",
+        "profilePicture": "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
+        "phoneNumber": "+43987654321"
+    },
+     {
+        "id": "7936434",
+        "firstname": "Johnathan",
+        "lastname": "Sullivan",
+        "description": "I am JOnathan, I study history at the university of Glasgow.",
+        "languagesSpoken": ["English"],
+        "subjects": [
+            {
+                "name": "English",
+                "levels": ["University", "Primary School", "Highschool"],
+                "types": ["Exam Preparation"],
+                "lessonPrice": "14.5"
+            },
+            {
+                "name": "Latin",
+                "levels": ["University", "Primary School", "Highschool"],
+                "types": ["Exam Preparation", "Conversation"],
+                "lessonPrice": "19.2"
+            }, 
+            {
+                "name": "History",
+                "levels": ["University", "Primary School", "Highschool"],
+                "types": ["Exam Preparation", "Conversation"],
+                "lessonPrice": "21.6"
+            }
+     ],
+        "paymentInfo": "Paypal",
+        "email": "j.sullivan@email.co.uk",
+        "profilePicture": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8bWFufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
+        "phoneNumber": "+442143658799"
     }
 ]
 }

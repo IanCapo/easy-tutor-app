@@ -20,21 +20,26 @@ export class TutorListComponent implements OnInit {
   ngOnInit(): void {}
 
   public toggleTutorCard(id: string, action: string) {
-    this.selectedTutorId = id;
-    if(action === 'book') {
-      this.isShowDetails = false;
-      this.isBookLesson = !this.isBookLesson;
+    if(this.selectedTutorId === id) {
+      if(action === 'book') {
+        this.isShowDetails = false;
+        this.isBookLesson = !this.isBookLesson;
+      }
+      if(action == 'details') {
+        this.isBookLesson = false;
+        this.isShowDetails = !this.isShowDetails;
+      }
+    } else {
+      this.selectedTutorId = id;
+      if(action === 'book') {
+        this.isShowDetails = false;
+        this.isBookLesson = true;
+      }
+      if(action == 'details') {
+        this.isBookLesson = false;
+        this.isShowDetails = true;
+      }
     }
-    if(action == 'details') {
-      this.isBookLesson = false;
-      this.isShowDetails = !this.isShowDetails;
-    }
-  }
-
-  closeDetails() {
-    this.selectedTutorId = '';
-    this.isBookLesson = false;
-    this.isShowDetails = false;
   }
 
     updateComponent(event: any) {

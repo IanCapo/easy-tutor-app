@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
+import emailjs from '@emailjs/browser';
 import { FormControl,  FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 

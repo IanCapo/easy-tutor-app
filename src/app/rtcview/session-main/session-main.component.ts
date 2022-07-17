@@ -16,21 +16,19 @@ export class SessionMainComponent implements OnInit {
     video: true
   };
   
-  public isMobile = this.isMobileDevice();
-  public localStream: any;
-  public localStreamClone: any;
-  public remoteStream: any;
-  private socketID : string;
-  public startedConnection = false;
-  public disableChat = true;
-  public isSessionEnded = false;
-  public isCameraOn = false;
+  public isMobile: boolean = this.isMobileDevice();
+  public localStream: MediaStream;
+  public localStreamClone: MediaStream;
+  public remoteStream: MediaStream;
+  public startedConnection: boolean = false;
+  public disableChat: boolean = true;
+  public isSessionEnded: boolean = false;
+  public isCameraOn: boolean = false;
   public isLoading = {
-    local: false,
+    local:  false,
     remote: false
   }
-
-  public isChatShowing = false;
+  public isChatShowing: boolean = false;
   
   iceServers = {
     iceServers: [
@@ -42,113 +40,102 @@ export class SessionMainComponent implements OnInit {
   public rtcPeerConnection: RTCPeerConnection
 
   constructor(private websocket: WebsocketService, private route: ActivatedRoute) {
-    this.socketID = websocket.socket.id
   }
 
 
   ngOnInit(): void {
-    console.log(this.isMobile);
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.roomId = params.get('room');
-    })
-    
-    this.websocket.listen('join').subscribe((data) => {
-      console.log(data);
-    })
+    });
 
-    this.websocket.listen('room_created').subscribe(async (data: any) => {
-      this.isLoading.local = true;
-      this.isRoomCreator = true;
-      this.roomId = data.roomId;
-      
-      let localStreamSuccess = await this.setLocalStream();
-      if(!localStreamSuccess) {
-        alert('Please enable camera and microfone.')
-      }
-    })
-
-    this.websocket.listen('room_joined').subscribe(async (data: any) => {
-      this.roomId = data.roomId;
-      let localStreamSuccess = await this.setLocalStream();
-      if(localStreamSuccess) {
-        console.log('local success');
+    this.websocket.listen('room_created')
+      .subscribe(async (data: any) => {
+        this.isLoading.local = true;
+        this.isRoomCreator = true;
+        this.roomId = data.roomId;
         
-        this.isLoading.local = false;
-        this.startCall();
-      }
-    })
+        let localStreamSuccess = await this.setLocalStream();
+        if(!localStreamSuccess) {
+          alert('Please enable camera and microfone.')
+        }
+      });
 
-    this.websocket.listen('room_inaccesabible').subscribe((data: any) => {
-      console.log('room full', data.roomId);
-    })
+    this.websocket.listen('room_joined')
+      .subscribe(async (data: any) => {
+        this.roomId = data.roomId;
+        let localStreamSuccess = await this.setLocalStream();
+        if(localStreamSuccess) {
+          this.isLoading.local = false;
+          this.startCall();
+        }
+      });
 
-    this.websocket.listen('starting_call').subscribe(async() => {
-        this.isLoading.remote = true;
-        this.disableChat = false;
-        this.rtcPeerConnection = await new RTCPeerConnection(this.iceServers);
-        this.addLocalTracks(this.rtcPeerConnection);
-        this.rtcPeerConnection.ontrack = (e) => {
-            this.remoteStream = e.streams[0];
-            this.remoteStream.getVideoTracks().forEach((track: MediaStreamTrack) => {
-              track.addEventListener('ended', () => console.log('remote video muted'));
-            })
-            this.isLoading.remote = false;
-        };  
-        this.rtcPeerConnection.onicecandidate = this.sendIceCandidate;
-        await this.createOffer(this.rtcPeerConnection);
-    })
+    this.websocket.listen('room_inaccesabible')
+      .subscribe(() => {
+        alert('This session is closed for new participants.');
+      });
 
-    this.websocket.listen('webrtc_offer').subscribe(async(e: any) => {
-      console.log('socket event callback: webrtc_offer');
-         this.rtcPeerConnection = new RTCPeerConnection(this.iceServers);
+    this.websocket.listen('starting_call')
+      .subscribe(async() => {
+          this.isLoading.remote = true;
+          this.disableChat = false;
+          this.rtcPeerConnection = await new RTCPeerConnection(this.iceServers);
           this.addLocalTracks(this.rtcPeerConnection);
           this.rtcPeerConnection.ontrack = (e) => {
               this.remoteStream = e.streams[0];
-              this.remoteStream.getVideoTracks().forEach((track: MediaStreamTrack) => {
-                track.addEventListener('ended', () => console.log('remote video muted'));
-              })
-          };
-          this.rtcPeerConnection.onicecandidate = e => this.sendIceCandidate(e);
-          this.rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(e));
-  
-          await this.answerOffer(this.rtcPeerConnection);
-    }) 
-  
-
-    this.websocket.listen('webrtc_answer').subscribe((data: any) => {
-      this.rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(data));
-    })
-
- 
-
-    this.websocket.listen('webrtc_ice_candidate').subscribe((data: any) => {
-  
-      let candidate = new RTCIceCandidate({
-          sdpMLineIndex: data.label,
-          candidate: data.candidate
+              this.isLoading.remote = false;
+          };  
+          this.rtcPeerConnection.onicecandidate = this.sendIceCandidate;
+          await this.createOffer(this.rtcPeerConnection);
       });
+
+    this.websocket.listen('webrtc_offer')
+      .subscribe(async(e: any) => {
+          this.rtcPeerConnection = new RTCPeerConnection(this.iceServers);
+            this.addLocalTracks(this.rtcPeerConnection);
+            this.rtcPeerConnection.ontrack = (e) => {
+                this.remoteStream = e.streams[0];
+            };
+            this.rtcPeerConnection.onicecandidate = e => this.sendIceCandidate(e);
+            this.rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(e));
+    
+            await this.answerOffer(this.rtcPeerConnection);
+      });
+  
+
+    this.websocket.listen('webrtc_answer')
+      .subscribe((data: any) => {
+        this.rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(data));
+      });
+
+    this.websocket.listen('webrtc_ice_candidate')
+      .subscribe((data: any) => {
+        let candidate = new RTCIceCandidate({
+            sdpMLineIndex: data.label,
+            candidate: data.candidate
+        });
      
-      this.rtcPeerConnection.addIceCandidate(candidate);
-      })
+        this.rtcPeerConnection.addIceCandidate(candidate);
+      });
 
-      this.websocket.listen('disconnect_socket').subscribe(() => {
-        this.remoteStream = null;
-      })
+      this.websocket.listen('disconnect_socket')
+        .subscribe(() => {
+          this.remoteStream.getTracks().forEach((track: MediaStreamTrack)  => track.stop()) 
+        });
 
-      this.websocket.listen('message').subscribe((data: any) => {
-        this.isChatShowing = true;
-      })
+      this.websocket.listen('message')
+        .subscribe((data: any) => {
+          this.isChatShowing = true;
+        });
   }
 
   connect() {
-    console.log('connect', this.roomId);
     this.websocket.emit('join', { roomId: this.roomId })
     this.startedConnection = true;
   }
 
   startCall() {
     this.disableChat = false;
-    console.log(this.roomId);
     this.websocket.emit('starting_call', 
       { roomId: this.roomId }
     );
@@ -160,11 +147,12 @@ export class SessionMainComponent implements OnInit {
       .then(mediaStream => {
           this.localStream = mediaStream;
           this.localStreamClone = mediaStream.clone();
-          this.localStreamClone.getAudioTracks().forEach((track: MediaStreamTrack) => {
-            track.enabled = false;
-          })
-          
+          this.localStreamClone.getAudioTracks()
+            .forEach((track: MediaStreamTrack) => {
+              track.enabled = false;
+            })
       }) 
+
       this.isCameraOn = true;
       this.isLoading.local = false;
       return true
@@ -246,7 +234,7 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
       const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false})
       return stream;
     } catch(e) {
-      alert('Please enable screen capture in System Preferences and turn on camera.');
+      alert('Please enable screen capture in System Preferences and reload.');
       return null;
     }
   }
@@ -258,7 +246,7 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
         sender.replaceTrack(nTrack);
         success = true;
       } else {
-        success = false
+        success = false;
       }
     })
     return success;
@@ -271,32 +259,23 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
 
     this.localStream.getTracks().forEach((track: any) => {
       track.stop();
-      this.remoteStream = null;
-      this.disableChat = true;
+      // this.remoteStream = 'null';
+     
     })
-    this.localStream = null;
+    this.disableChat = true;
+    this.isCameraOn = false;
     this.isSessionEnded = true;
   }
 
-  rejoin() {
-    this.isSessionEnded = false;
-    console.log('rejoin');
-    this.connect();
-    this.isRoomCreator = false;
-    this.isSessionEnded = false;
-  }
-
   disbaleVideo() {
-    console.log('click off');
-    
     let localTrack = this.localStream.getTracks().find((track: any) => track.kind === 'video')
-    localTrack.enabled = false;
+    localTrack!.enabled = false;
     this.isCameraOn = false;
   }
 
   enableVideo = async () => {
     let localTrack = this.localStream.getTracks().find((track: any) => track.kind === 'video')
-    localTrack.enabled = true;
+    localTrack!.enabled = true;
     this.isCameraOn = true;
   }
 
@@ -304,9 +283,7 @@ answerOffer = async (rtcPeerConnection: RTCPeerConnection) => {
     this.isChatShowing = !this.isChatShowing;
   }
 
-  isMobileDevice() {
-    console.log(window.navigator.userAgent);
-    
+  isMobileDevice() {    
     const userAgent = window.navigator.userAgent.toLowerCase()
     return userAgent.includes('mobile') || userAgent.includes('phone') || window.innerWidth < 769 ;
   }

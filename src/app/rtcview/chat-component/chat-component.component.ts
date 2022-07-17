@@ -18,30 +18,34 @@ export class ChatComponentComponent implements OnInit {
   public isMobile: boolean = this.isMobileDevice();
 
   constructor(private websocket: WebsocketService) { 
-    this.socketID = websocket.socket.is
+    this.socketID = websocket.socket.id
    }
 
   ngOnInit(): void {
-    this.websocket.listen('message').subscribe((data: any) => {
-      this.messages.push({sender: 'received', message: data.msg})
-      this.scrollDown();
-    })
+  console.log(this.websocket.socket);
+  
+    this.websocket.listen('message')
+      .subscribe((data: any) => {        
+        this.messages.push({sender: 'received', message: data.msg})
+        this.scrollDown();
+      });
 
-    this.websocket.listen('room_joined').subscribe(() => {
-      this.isConnected = true;
-    })
+    this.websocket.listen('room_joined')
+      .subscribe(() => {
+        this.isConnected = true;
+      });
 
-    this.websocket.listen('starting_call').subscribe(() => {
-      this.isConnected = true;
-    })
+    this.websocket.listen('starting_call')
+      .subscribe(() => {
+        this.isConnected = true;
+      });
 
-    this.websocket.listen('disconnect_socket').subscribe(() => {
-      console.log('disconnecting');
-      this.isConnected = false;
-      this.isConnectionClosed.emit(true);
-    })
+    this.websocket.listen('disconnect_socket')
+      .subscribe(() => {
+        this.isConnected = false;
+        this.isConnectionClosed.emit(true);
+      });
   }
-
 
   sendChatMessage = (msg:string) => {
     this.websocket.emit('message',{
@@ -69,15 +73,11 @@ export class ChatComponentComponent implements OnInit {
 
   isMobileDevice() {
     const userAgent = window.navigator.userAgent.toLowerCase()
-    return userAgent.includes('mobile') || userAgent.includes('phone') || window.innerWidth < 769 ;
+    return userAgent.includes('mobile') || userAgent.includes('phone') || window.innerWidth < 769;
   }
 
   focusOnInput () {
-    console.log('clicked focus');
-    
     let input = document.querySelector('#input') as HTMLElement;
-    console.log(input);
-    
     input.focus();
   }
 }

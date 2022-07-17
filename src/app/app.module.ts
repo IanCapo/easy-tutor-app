@@ -1,5 +1,4 @@
 import { environment } from './../environments/environment';
-import { ButtonComponent } from './shared/components/button/button.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -31,7 +30,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 @NgModule({
   declarations: [
     AppComponent,
-    ButtonComponent,
     MainBookingViewComponent,
     InputgroupComponent,
     TutorListComponent,
