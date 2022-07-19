@@ -20,14 +20,16 @@ export class InputgroupComponent implements OnInit {
   ngOnInit() {
     this.filteredOptions = this.inputControl.valueChanges.pipe(
       startWith(''),
-      map(val => this._filter(val || '')),
+      map(val => this._filter(val || '', this.options)),
     );
   }
 
-  private _filter(val: string): string[] {
+  public _filter(val: string, options: string[]): string[] {
     const filterVal = val.toLowerCase();
-
-    return this.options.filter(option => option.toLowerCase().includes(filterVal));
+    const result = options.filter(option => option.toLowerCase().includes(filterVal));
+    console.log(result);
+    
+    return result
   }
 
   public onBlur($event: any) {
